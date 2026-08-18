@@ -123,6 +123,74 @@
       background: #1d4ed8;
     }
 
+    .login-page {
+      display: none;
+    }
+
+    .login-box {
+      max-width: 450px;
+      margin: 50px auto;
+      background: white;
+      padding: 40px 30px;
+      border-radius: 24px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.10);
+      text-align: center;
+    }
+
+    .login-icon {
+      font-size: 55px;
+      margin-bottom: 10px;
+    }
+
+    .login-box h2 {
+      margin: 10px 0;
+      font-size: 30px;
+    }
+
+    .login-box p {
+      color: #6b7280;
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.10);
+    }
+
+    .login-button {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .back-button {
+      background: #6b7280;
+      margin-top: 15px;
+    }
+
+    .back-button:hover {
+      background: #4b5563;
+    }
+
     footer {
       text-align: center;
       padding: 25px;
@@ -142,66 +210,254 @@
       .welcome {
         padding: 30px 20px;
       }
+
+      .login-box {
+        margin: 30px 20px;
+        padding: 30px 20px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">🎓</div>
-    <h1> KOUTTOUKOS Education</h1>
-    <div class="subtitle">Ο δικός σου ψηφιακός χώρος μάθησης</div>
-  </header>
+  <!-- ΑΡΧΙΚΗ ΣΕΛΙΔΑ -->
 
-  <main class="container">
+  <div id="homePage">
 
-    <section class="welcome">
+    <header>
+      <div class="logo">🎓</div>
+      <h1>KOUTTOUKOS Education</h1>
+      <div class="subtitle">Ο δικός σου ψηφιακός χώρος μάθησης</div>
+    </header>
 
-      <h2>Καλώς ήρθες! 👋</h2>
+    <main class="container">
 
-      <p>
-        Ένας οργανωμένος και σύγχρονος χώρος για μαθητές και καθηγητές,
-        με εκπαιδευτικό υλικό, videos, διαγωνίσματα, βαθμούς,
-        ανακοινώσεις και παρακολούθηση προόδου.
-      </p>
+      <section class="welcome">
 
-      <div class="roles">
+        <h2>Καλώς ήρθες! 👋</h2>
 
-        <div class="role">
-          <div class="role-icon">👨‍🎓</div>
-          <h3>Μαθητής</h3>
-          <p>
-            Δες το υλικό σου, τα videos, τους βαθμούς,
-            τα διαγωνίσματα και την πρόοδό σου.
-          </p>
-          <button onclick="alert('Η σύνδεση μαθητή θα προστεθεί στο επόμενο βήμα!')">
-            Είσοδος μαθητή
-          </button>
+        <p>
+          Ένας οργανωμένος και σύγχρονος χώρος για μαθητές και καθηγητές,
+          με εκπαιδευτικό υλικό, videos, διαγωνίσματα, βαθμούς,
+          ανακοινώσεις και παρακολούθηση προόδου.
+        </p>
+
+        <div class="roles">
+
+          <div class="role">
+            <div class="role-icon">👨‍🎓</div>
+
+            <h3>Μαθητής</h3>
+
+            <p>
+              Δες το υλικό σου, τα videos, τους βαθμούς,
+              τα διαγωνίσματα και την πρόοδό σου.
+            </p>
+
+            <button onclick="showLogin('student')">
+              Είσοδος μαθητή
+            </button>
+          </div>
+
+
+          <div class="role">
+            <div class="role-icon">👨‍🏫</div>
+
+            <h3>Καθηγητής</h3>
+
+            <p>
+              Διαχειρίσου μαθητές, υλικό, videos,
+              διαγωνίσματα, βαθμούς και πληρωμές.
+            </p>
+
+            <button onclick="showLogin('teacher')">
+              Είσοδος καθηγητή
+            </button>
+          </div>
+
         </div>
 
-        <div class="role">
-          <div class="role-icon">👨‍🏫</div>
-          <h3>Καθηγητής</h3>
-          <p>
-            Διαχειρίσου μαθητές, υλικό, videos,
-            διαγωνίσματα, βαθμούς και πληρωμές.
-          </p>
-          <button onclick="alert('Η σύνδεση καθηγητή θα προστεθεί στο επόμενο βήμα!')">
-            Είσοδος καθηγητή
+      </section>
+
+    </main>
+
+    <footer>
+      © 2026 KOUTTOUKOS Education
+    </footer>
+
+  </div>
+
+
+  <!-- LOGIN ΜΑΘΗΤΗ -->
+
+  <div id="studentLogin" class="login-page">
+
+    <header>
+      <div class="logo">🎓</div>
+      <h1>KOUTTOUKOS Education</h1>
+      <div class="subtitle">Είσοδος μαθητή</div>
+    </header>
+
+    <main class="container">
+
+      <div class="login-box">
+
+        <div class="login-icon">👨‍🎓</div>
+
+        <h2>Σύνδεση μαθητή</h2>
+
+        <p>
+          Συνδέσου στον προσωπικό σου χώρο.
+        </p>
+
+        <form onsubmit="loginMessage(event, 'student')">
+
+          <div class="input-group">
+            <label for="studentEmail">📧 Email</label>
+            <input
+              type="email"
+              id="studentEmail"
+              placeholder="Το email σου"
+              required
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="studentPassword">🔑 Κωδικός</label>
+            <input
+              type="password"
+              id="studentPassword"
+              placeholder="Ο κωδικός σου"
+              required
+            >
+          </div>
+
+          <button class="login-button" type="submit">
+            🔐 Σύνδεση
           </button>
-        </div>
+
+        </form>
+
+        <button class="back-button" onclick="goHome()">
+          ← Επιστροφή
+        </button>
 
       </div>
 
-    </section>
+    </main>
 
-  </main>
+  </div>
 
-  <footer>
-    © 2026 KOUTTOUKOS Education
-  </footer>
+
+  <!-- LOGIN ΚΑΘΗΓΗΤΗ -->
+
+  <div id="teacherLogin" class="login-page">
+
+    <header>
+      <div class="logo">🎓</div>
+      <h1>KOUTTOUKOS Education</h1>
+      <div class="subtitle">Είσοδος καθηγητή</div>
+    </header>
+
+    <main class="container">
+
+      <div class="login-box">
+
+        <div class="login-icon">👨‍🏫</div>
+
+        <h2>Σύνδεση καθηγητή</h2>
+
+        <p>
+          Συνδέσου στον χώρο διαχείρισης.
+        </p>
+
+        <form onsubmit="loginMessage(event, 'teacher')">
+
+          <div class="input-group">
+            <label for="teacherEmail">📧 Email</label>
+            <input
+              type="email"
+              id="teacherEmail"
+              placeholder="Το email σου"
+              required
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="teacherPassword">🔑 Κωδικός</label>
+            <input
+              type="password"
+              id="teacherPassword"
+              placeholder="Ο κωδικός σου"
+              required
+            >
+          </div>
+
+          <button class="login-button" type="submit">
+            🔐 Σύνδεση
+          </button>
+
+        </form>
+
+        <button class="back-button" onclick="goHome()">
+          ← Επιστροφή
+        </button>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <script>
+
+    function showLogin(type) {
+
+      document.getElementById("homePage").style.display = "none";
+
+      document.getElementById("studentLogin").style.display = "none";
+      document.getElementById("teacherLogin").style.display = "none";
+
+      if (type === "student") {
+        document.getElementById("studentLogin").style.display = "block";
+      }
+
+      if (type === "teacher") {
+        document.getElementById("teacherLogin").style.display = "block";
+      }
+
+      window.scrollTo(0, 0);
+    }
+
+
+    function goHome() {
+
+      document.getElementById("studentLogin").style.display = "none";
+      document.getElementById("teacherLogin").style.display = "none";
+
+      document.getElementById("homePage").style.display = "block";
+
+      window.scrollTo(0, 0);
+    }
+
+
+    function loginMessage(event, type) {
+
+      event.preventDefault();
+
+      if (type === "student") {
+        alert("Η πραγματική σύνδεση μαθητή θα προστεθεί με το Supabase στο επόμενο βήμα.");
+      }
+
+      if (type === "teacher") {
+        alert("Η πραγματική σύνδεση καθηγητή θα προστεθεί με το Supabase στο επόμενο βήμα.");
+      }
+
+    }
+
+  </script>
 
 </body>
 </html>
-```
