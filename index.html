@@ -683,20 +683,23 @@ async function loginMessage(event, type) {
     return;
   }
 
-  if (type === "student") {
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("studentLogin").style.display = "none";
+  document.getElementById("teacherLogin").style.display = "none";
 
-    document.getElementById("studentLogin").style.display = "none";
-    document.getElementById("homePage").style.display = "none";
-    document.getElementById("teacherLogin").style.display = "none";
+  if (type === "student") {
 
     document.getElementById("studentDashboard").style.display = "block";
 
-    window.scrollTo(0, 0);
   }
 
   if (type === "teacher") {
-    alert("✅ Καλώς ήρθες, καθηγητή!");
+
+    document.getElementById("teacherDashboard").style.display = "block";
+
   }
+
+  window.scrollTo(0, 0);
 
 }
 
