@@ -454,20 +454,42 @@
     }
 
 
-    function loginMessage(event, type) {
+    async function loginMessage(event, type) {
 
-      event.preventDefault();
+  event.preventDefault();
 
-      if (type === "student") {
-        alert("Η πραγματική σύνδεση μαθητή θα προστεθεί με το Supabase στο επόμενο βήμα.");
-      }
+  let email;
+  let password;
 
-      if (type === "teacher") {
-        alert("Η πραγματική σύνδεση καθηγητή θα προστεθεί με το Supabase στο επόμενο βήμα.");
-      }
+  if (type === "student") {
+    email = document.getElementById("studentEmail").value;
+    password = document.getElementById("studentPassword").value;
+  }
 
-    }
+  if (type === "teacher") {
+    email = document.getElementById("teacherEmail").value;
+    password = document.getElementById("teacherPassword").value;
+  }
 
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    alert("❌ Λάθος email ή κωδικός.\n\n" + error.message);
+    return;
+  }
+
+  if (type === "student") {
+    alert("✅ Καλώς ήρθες, μαθητή!");
+  }
+
+  if (type === "teacher") {
+    alert("✅ Καλώς ήρθες, καθηγητή!");
+  }
+
+}
   </script>
 
 </body>
