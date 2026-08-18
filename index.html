@@ -4,57 +4,144 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kouttoukos Education</title>
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f4f7fb;
+      background: linear-gradient(135deg, #eef4ff, #f8fbff);
       color: #1f2937;
-      text-align: center;
+      min-height: 100vh;
     }
 
     header {
-      background: #2563eb;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
       color: white;
-      padding: 35px 20px;
+      padding: 55px 20px 70px;
+      text-align: center;
+    }
+
+    header .logo {
+      font-size: 55px;
+      margin-bottom: 10px;
     }
 
     h1 {
       margin: 0;
-      font-size: 36px;
+      font-size: 42px;
+      letter-spacing: 0.5px;
     }
 
     .subtitle {
-      font-size: 18px;
-      margin-top: 10px;
+      font-size: 19px;
+      margin-top: 12px;
+      opacity: 0.95;
     }
 
     .container {
       max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
+      margin: -35px auto 50px;
+      padding: 0 20px;
     }
 
-    .card {
+    .welcome {
       background: white;
-      border-radius: 18px;
-      padding: 30px;
-      margin: 20px 0;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      border-radius: 24px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.10);
+    }
+
+    .welcome h2 {
+      margin-top: 0;
+      font-size: 30px;
+    }
+
+    .welcome p {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #6b7280;
+      max-width: 650px;
+      margin: 0 auto 30px;
+    }
+
+    .roles {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .role {
+      flex: 1;
+      min-width: 250px;
+      max-width: 350px;
+      padding: 30px 20px;
+      border: 2px solid #e5e7eb;
+      border-radius: 20px;
+      background: #ffffff;
+      transition: 0.2s;
+    }
+
+    .role:hover {
+      transform: translateY(-5px);
+      border-color: #2563eb;
+      box-shadow: 0 8px 25px rgba(37,99,235,0.12);
+    }
+
+    .role-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .role h3 {
+      margin: 5px 0 10px;
+      font-size: 22px;
+    }
+
+    .role p {
+      font-size: 15px;
+      margin-bottom: 20px;
     }
 
     button {
       background: #2563eb;
       color: white;
       border: none;
-      padding: 14px 25px;
+      padding: 13px 25px;
       border-radius: 10px;
       font-size: 16px;
       cursor: pointer;
+      font-weight: bold;
     }
 
     button:hover {
       background: #1d4ed8;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 32px;
+      }
+
+      header {
+        padding: 40px 15px 60px;
+      }
+
+      .welcome {
+        padding: 30px 20px;
+      }
     }
   </style>
 </head>
@@ -62,24 +149,59 @@
 <body>
 
   <header>
-    <h1>🎓 Kouttoukos Education</h1>
-    <div class="subtitle">Ο δικός σου χώρος μάθησης</div>
+    <div class="logo">🎓</div>
+    <h1>Kouttoukos Education</h1>
+    <div class="subtitle">Ο δικός σου ψηφιακός χώρος μάθησης</div>
   </header>
 
-  <div class="container">
+  <main class="container">
 
-    <div class="card">
-      <h2>Καλώς ήρθες!</h2>
+    <section class="welcome">
+
+      <h2>Καλώς ήρθες! 👋</h2>
+
       <p>
-        Εδώ θα οργανώσουμε την εκπαιδευτική μας εφαρμογή,
-        ώστε να είναι απλή, όμορφη και εύχρηστη.
+        Ένας οργανωμένος και σύγχρονος χώρος για μαθητές και καθηγητές,
+        με εκπαιδευτικό υλικό, videos, διαγωνίσματα, βαθμούς,
+        ανακοινώσεις και παρακολούθηση προόδου.
       </p>
-      <button onclick="alert('Καλώς ήρθες στο Kouttoukos Education!')">
-        Ξεκίνα
-      </button>
-    </div>
 
-  </div>
+      <div class="roles">
+
+        <div class="role">
+          <div class="role-icon">👨‍🎓</div>
+          <h3>Μαθητής</h3>
+          <p>
+            Δες το υλικό σου, τα videos, τους βαθμούς,
+            τα διαγωνίσματα και την πρόοδό σου.
+          </p>
+          <button onclick="alert('Η σύνδεση μαθητή θα προστεθεί στο επόμενο βήμα!')">
+            Είσοδος μαθητή
+          </button>
+        </div>
+
+        <div class="role">
+          <div class="role-icon">👨‍🏫</div>
+          <h3>Καθηγητής</h3>
+          <p>
+            Διαχειρίσου μαθητές, υλικό, videos,
+            διαγωνίσματα, βαθμούς και πληρωμές.
+          </p>
+          <button onclick="alert('Η σύνδεση καθηγητή θα προστεθεί στο επόμενο βήμα!')">
+            Είσοδος καθηγητή
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 Kouttoukos Education
+  </footer>
 
 </body>
 </html>
+```
