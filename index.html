@@ -549,7 +549,7 @@
     }
 
 
-    async function loginMessage(event, type) {
+async function loginMessage(event, type) {
 
   event.preventDefault();
 
@@ -577,7 +577,14 @@
   }
 
   if (type === "student") {
-    alert("✅ Καλώς ήρθες, μαθητή!");
+
+    document.getElementById("studentLogin").style.display = "none";
+    document.getElementById("homePage").style.display = "none";
+    document.getElementById("teacherLogin").style.display = "none";
+
+    document.getElementById("studentDashboard").style.display = "block";
+
+    window.scrollTo(0, 0);
   }
 
   if (type === "teacher") {
@@ -585,6 +592,8 @@
   }
 
 }
+
+    
   </script>
 
 </body>
