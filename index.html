@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="el">
-<head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = 'https://zhwppxonalazorixkedv.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_qX9_fpj3DLyAz99G9IfInA_IvPsr9xW';
+
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+</script>
+  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KOUTTOUKOS Education</title>
