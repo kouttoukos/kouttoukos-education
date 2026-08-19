@@ -633,29 +633,11 @@
       document.getElementById("studentLogin").style.display = "none";
       document.getElementById("teacherLogin").style.display = "none";
 
- if (type === "student") {
-
-  const user = data.user;
-
-  const { data: student, error: studentError } = await supabaseClient
-    .from("students")
-    .select("f_name, l_name, email, class, created_at")
-    .eq("auth_id", user.id)
-    .single();
-
-  if (studentError) {
-    alert("❌ Ο λογαριασμός συνδέθηκε, αλλά δεν βρέθηκαν τα στοιχεία του μαθητή.");
-    console.error(studentError);
-    return;
-  }
-
-  document.getElementById("studentWelcome").textContent =
-    `Καλώς ήρθες, ${student.f_name}! 👋`;
-
-  document.getElementById("studentDashboard").style.display = "block";
-
+      if (type === "student") {
+         document.getElementById("studentLogin").style.display = "block";
 }
 
+      
       if (type === "teacher") {
         document.getElementById("teacherLogin").style.display = "block";
       }
