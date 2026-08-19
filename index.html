@@ -646,8 +646,45 @@
       <h2>👨‍🎓 Οι μαθητές μου</h2>
 
       <p>
-        Εδώ βλέπεις τους μαθητές που υπάρχουν στην πλατφόρμα.
+        Εδώ μπορείς να βλέπεις και να διαχειρίζεσαι τους μαθητές σου.
       </p>
+
+      <!-- ΦΙΛΤΡΟ ΤΑΞΗΣ -->
+
+      <div style="margin: 25px 0;">
+
+        <label for="classFilter" style="font-weight: bold;">
+          🎓 Επιλογή τάξης:
+        </label>
+
+        <select
+          id="classFilter"
+          onchange="openStudents()"
+          style="
+            padding: 12px;
+            margin-left: 10px;
+            border-radius: 10px;
+            border: 1px solid #d1d5db;
+            font-size: 16px;
+          "
+        >
+          <option value="all">Όλοι οι μαθητές</option>
+          <option value="Β">Β΄ Τάξη</option>
+          <option value="Γ">Γ΄ Τάξη</option>
+        </select>
+
+      </div>
+
+      <!-- ΝΕΟΣ ΜΑΘΗΤΗΣ -->
+
+      <button
+        onclick="alert('➕ Η καταχώρηση νέου μαθητή θα προστεθεί στο επόμενο βήμα.')"
+        style="margin-bottom: 25px;"
+      >
+        ➕ Νέος μαθητής
+      </button>
+
+      <!-- ΛΙΣΤΑ ΜΑΘΗΤΩΝ -->
 
       <div id="studentsList">
         <p>⏳ Φόρτωση μαθητών...</p>
@@ -670,7 +707,7 @@
   </footer>
 
 </div>
-
+  
   
   <!-- LOGIN ΚΑΘΗΓΗΤΗ -->
 
@@ -862,7 +899,7 @@ async function loginMessage(event, type) {
 }
 
 
-  async function openStudents() {
+async function openStudents() {
 
   document.getElementById("teacherDashboard").style.display = "none";
   document.getElementById("studentsPage").style.display = "block";
@@ -871,10 +908,22 @@ async function loginMessage(event, type) {
 
   studentsList.innerHTML = "<p>⏳ Φόρτωση μαθητών...</p>";
 
-  const { data: students, error } = await supabaseClient
+  const selectedClass =
+    document.getElementById("classFilter").value;
+
+  let query = supabaseClient
     .from("Students")
     .select("id, f_name, l_name, email, phone, class, created_at")
     .order("id", { ascending: true });
+
+  // Αν έχει επιλεγεί συγκεκριμένη τάξη
+  if (selectedClass !== "all") {
+
+    query = query.eq("class", selectedClass);
+
+  }
+
+  const { data: students, error } = await query;
 
   if (error) {
 
@@ -889,21 +938,30 @@ async function loginMessage(event, type) {
   if (!students || students.length === 0) {
 
     studentsList.innerHTML =
-      "<p>Δεν υπάρχουν μαθητές.</p>";
+      "<p>Δεν υπάρχουν μαθητές σε αυτή την τάξη.</p>";
 
     return;
   }
 
   studentsList.innerHTML = students.map(student => `
 
-    <div class="role" style="max-width: 100%; margin-bottom: 15px; text-align: left;">
+    <div
+      class="role"
+      style="
+        max-width: 100%;
+        margin-bottom: 15px;
+        text-align: left;
+      "
+    >
 
       <h3>
         👨‍🎓 ${student.f_name || ""} ${student.l_name || ""}
       </h3>
 
       <p>📧 ${student.email || "—"}</p>
+
       <p>📱 ${student.phone || "—"}</p>
+
       <p>🎓 Τάξη: ${student.class || "—"}</p>
 
     </div>
