@@ -1071,7 +1071,21 @@ async function openStudents() {
   `).join("");
 }
 
+function showNewStudentForm() {
 
+  document.getElementById("newStudentForm").style.display = "block";
+
+  window.scrollTo(0, 0);
+}
+
+
+function hideNewStudentForm() {
+
+  document.getElementById("newStudentForm").style.display = "none";
+
+}
+
+    
 function backToTeacherDashboard() {
 
   document.getElementById("studentsPage").style.display = "none";
