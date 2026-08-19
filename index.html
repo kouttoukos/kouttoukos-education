@@ -1102,7 +1102,7 @@ async function openStudents() {
 
   let query = supabaseClient
     .from("Students")
-    .select("id, f_name, l_name, email, phone, class, created_at")
+    .select("id, auth_id, f_name, l_name, email, phone, class, created_at")
     .order("id", { ascending: true });
 
   // Αν έχει επιλεγεί συγκεκριμένη τάξη
