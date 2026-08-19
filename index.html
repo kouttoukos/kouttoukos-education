@@ -722,6 +722,63 @@
       window.scrollTo(0, 0);
     }
 
+async function openStudentProfile() {
+
+  const { data: { user }, error: userError } =
+    await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    alert("❌ Δεν βρέθηκε ενεργός χρήστης.");
+    return;
+  }
+
+  const { data: student, error: studentError } =
+    await supabaseClient
+      .from("students")
+      .select("f_name, l_name, email, phone, class, created_at")
+      .eq("auth_id", user.id)
+      .single();
+
+  if (studentError) {
+    console.error(studentError);
+    alert("❌ Δεν βρέθηκαν τα στοιχεία του μαθητή.");
+    return;
+  }
+
+  document.getElementById("profileFirstName").textContent =
+    student.f_name || "—";
+
+  document.getElementById("profileLastName").textContent =
+    student.l_name || "—";
+
+  document.getElementById("profileEmail").textContent =
+    student.email || "—";
+
+  document.getElementById("profilePhone").textContent =
+    student.phone || "—";
+
+  document.getElementById("profileClass").textContent =
+    student.class || "—";
+
+  document.getElementById("profileCreatedAt").textContent =
+    student.created_at
+      ? new Date(student.created_at).toLocaleDateString("el-GR")
+      : "—";
+
+  document.getElementById("studentDashboard").style.display = "none";
+  document.getElementById("studentProfile").style.display = "block";
+
+  window.scrollTo(0, 0);
+}
+    
+
+function backToStudentDashboard() {
+
+  document.getElementById("studentProfile").style.display = "none";
+  document.getElementById("studentDashboard").style.display = "block";
+
+  window.scrollTo(0, 0);
+} 
 
 async function loginMessage(event, type) {
 
