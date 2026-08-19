@@ -734,7 +734,7 @@ async function openStudentProfile() {
 
   const { data: student, error: studentError } =
     await supabaseClient
-      .from("students")
+      .from("Students")
       .select("f_name, l_name, email, phone, class, created_at")
       .eq("auth_id", user.id)
       .single();
