@@ -976,11 +976,26 @@ async function loginMessage(event, type) {
   document.getElementById("studentLogin").style.display = "none";
   document.getElementById("teacherLogin").style.display = "none";
 
-  if (type === "student") {
+ if (type === "student") {
 
-    document.getElementById("studentDashboard").style.display = "block";
+  const { data: student, error: studentError } =
+    await supabaseClient
+      .from("Students")
+      .select("f_name")
+      .eq("auth_id", data.user.id)
+      .single();
 
+  if (studentError) {
+    console.error(studentError);
   }
+
+  document.getElementById("studentWelcome").textContent =
+    student?.f_name
+      ? `Καλώς ήρθες, ${student.f_name}! 👋`
+      : "Καλώς ήρθες! 👋";
+
+  document.getElementById("studentDashboard").style.display = "block";
+}
 
   if (type === "teacher") {
 
