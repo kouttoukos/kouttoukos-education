@@ -778,6 +778,84 @@
 
 </div>
 
+      <!-- ΕΠΕΞΕΡΓΑΣΙΑ ΜΑΘΗΤΗ -->
+
+<div
+  id="editStudentForm"
+  style="
+    display: none;
+    max-width: 550px;
+    margin: 20px auto 30px;
+    background: #f8fafc;
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid #e5e7eb;
+    text-align: left;
+  "
+>
+
+  <h2 style="text-align: center;">
+    ✏️ Επεξεργασία μαθητή
+  </h2>
+
+  <input type="hidden" id="editStudentId">
+
+  <div class="input-group">
+    <label>Όνομα</label>
+    <input type="text" id="editStudentFirstName">
+  </div>
+
+  <div class="input-group">
+    <label>Επώνυμο</label>
+    <input type="text" id="editStudentLastName">
+  </div>
+
+  <div class="input-group">
+    <label>📧 Email</label>
+    <input type="email" id="editStudentEmail">
+  </div>
+
+  <div class="input-group">
+    <label>📱 Τηλέφωνο</label>
+    <input type="text" id="editStudentPhone">
+  </div>
+
+  <div class="input-group">
+    <label>🎓 Τάξη</label>
+
+    <select
+      id="editStudentClass"
+      style="
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        font-size: 16px;
+      "
+    >
+      <option value="">Επίλεξε τάξη</option>
+      <option value="Β">Β΄ Τάξη</option>
+      <option value="Γ">Γ΄ Τάξη</option>
+    </select>
+  </div>
+
+  <button
+    onclick="saveStudentChanges()"
+    style="width: 100%;"
+  >
+    💾 Αποθήκευση αλλαγών
+  </button>
+
+  <button
+    class="back-button"
+    onclick="hideEditStudentForm()"
+    style="width: 100%;"
+  >
+    ✖ Ακύρωση
+  </button>
+
+</div>
+      
       <!-- ΛΙΣΤΑ ΜΑΘΗΤΩΝ -->
 
       <div id="studentsList">
@@ -865,6 +943,8 @@
 
 
   <script>
+
+    let currentStudents = [];
 
     function showLogin(type) {
 
@@ -1033,6 +1113,7 @@ async function openStudents() {
   }
 
   const { data: students, error } = await query;
+  currentStudents = students || [];
 
   if (error) {
 
@@ -1072,6 +1153,14 @@ async function openStudents() {
       <p>📱 ${student.phone || "—"}</p>
 
       <p>🎓 Τάξη: ${student.class || "—"}</p>
+
+     <button
+      onclick="editStudent('${student.id}')"
+      style="margin-top: 10px;"
+>
+  ✏️ Επεξεργασία
+</button>
+      
 
     </div>
 
@@ -1190,6 +1279,38 @@ async function createNewStudent(button) {
     button.textContent = "💾 Αποθήκευση μαθητή";
 
   }
+}
+
+function editStudent(id) {
+
+  const student = currentStudents.find(
+    student => String(student.id) === String(id)
+  );
+
+  if (!student) {
+    alert("❌ Δεν βρέθηκε ο μαθητής.");
+    return;
+  }
+
+  document.getElementById("editStudentId").value = student.id;
+  document.getElementById("editStudentFirstName").value = student.f_name || "";
+  document.getElementById("editStudentLastName").value = student.l_name || "";
+  document.getElementById("editStudentEmail").value = student.email || "";
+  document.getElementById("editStudentPhone").value = student.phone || "";
+  document.getElementById("editStudentClass").value = student.class || "";
+
+  document.getElementById("studentsList").style.display = "none";
+  document.getElementById("editStudentForm").style.display = "block";
+
+  window.scrollTo(0, 0);
+}
+
+
+function hideEditStudentForm() {
+
+  document.getElementById("editStudentForm").style.display = "none";
+  document.getElementById("studentsList").style.display = "block";
+
 }
     
   </script>
