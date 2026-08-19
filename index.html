@@ -1134,38 +1134,83 @@ async function openStudents() {
     return;
   }
 
-  studentsList.innerHTML = students.map(student => `
+studentsList.innerHTML = `
+  <div style="overflow-x: auto; margin-top: 20px;">
 
-    <div
-      class="role"
-      style="
-        max-width: 100%;
-        margin-bottom: 15px;
-        text-align: left;
-      "
-    >
+    <table style="
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+    ">
 
-      <h3>
-        👨‍🎓 ${student.f_name || ""} ${student.l_name || ""}
-      </h3>
+      <thead>
+        <tr style="background: #f1f5f9;">
 
-      <p>📧 ${student.email || "—"}</p>
+          <th style="padding: 14px; text-align: left;">
+            Μαθητής
+          </th>
 
-      <p>📱 ${student.phone || "—"}</p>
+          <th style="padding: 14px; text-align: left;">
+            Τάξη
+          </th>
 
-      <p>🎓 Τάξη: ${student.class || "—"}</p>
+          <th style="padding: 14px; text-align: left;">
+            Τηλέφωνο
+          </th>
 
-     <button
-      onclick="editStudent('${student.id}')"
-      style="margin-top: 10px;"
->
-  ✏️ Επεξεργασία
-</button>
-      
+          <th style="padding: 14px; text-align: center;">
+            Ενέργεια
+          </th>
 
-    </div>
+        </tr>
+      </thead>
 
-  `).join("");
+      <tbody>
+
+        ${students.map(student => `
+
+          <tr style="border-top: 1px solid #e5e7eb;">
+
+            <td style="padding: 14px;">
+              <strong>
+                ${student.f_name || ""} ${student.l_name || ""}
+              </strong>
+              <br>
+              <span style="color: #6b7280; font-size: 14px;">
+                ${student.email || "—"}
+              </span>
+            </td>
+
+            <td style="padding: 14px;">
+              🎓 ${student.class || "—"}
+            </td>
+
+            <td style="padding: 14px;">
+              📱 ${student.phone || "—"}
+            </td>
+
+            <td style="padding: 14px; text-align: center;">
+
+              <button
+                onclick="editStudent('${student.id}')"
+              >
+                ✏️ Επεξεργασία
+              </button>
+
+            </td>
+
+          </tr>
+
+        `).join("")}
+
+      </tbody>
+
+    </table>
+
+  </div>
+`;
 }
 
 function showNewStudentForm() {
