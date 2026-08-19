@@ -550,9 +550,9 @@
           <div class="role-icon">👨‍🎓</div>
           <h3>Μαθητές</h3>
           <p>Διαχείριση μαθητών και στοιχείων τους.</p>
-          <button onclick="alert('👨‍🎓 Η διαχείριση μαθητών θα προστεθεί σύντομα.')">
-            Άνοιγμα
-          </button>
+         <button onclick="openStudents()">
+          Άνοιγμα
+         </button>
         </div>
 
         <div class="role">
@@ -628,6 +628,49 @@
   </footer>
 
 </div>
+
+<!-- STUDENTS PAGE -->
+
+<div id="studentsPage" class="login-page">
+
+  <header>
+    <div class="logo">👨‍🎓</div>
+    <h1>KOUTTOUKOS Education</h1>
+    <div class="subtitle">Οι μαθητές μου</div>
+  </header>
+
+  <main class="container">
+
+    <section class="welcome">
+
+      <h2>👨‍🎓 Οι μαθητές μου</h2>
+
+      <p>
+        Εδώ βλέπεις τους μαθητές που υπάρχουν στην πλατφόρμα.
+      </p>
+
+      <div id="studentsList">
+        <p>⏳ Φόρτωση μαθητών...</p>
+      </div>
+
+      <button
+        class="back-button"
+        onclick="backToTeacherDashboard()"
+        style="margin-top: 30px;"
+      >
+        ← Επιστροφή
+      </button>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 KOUTTOUKOS Education
+  </footer>
+
+</div>
+
   
   <!-- LOGIN ΚΑΘΗΓΗΤΗ -->
 
@@ -818,6 +861,64 @@ async function loginMessage(event, type) {
 
 }
 
+
+  async function openStudents() {
+
+  document.getElementById("teacherDashboard").style.display = "none";
+  document.getElementById("studentsPage").style.display = "block";
+
+  const studentsList = document.getElementById("studentsList");
+
+  studentsList.innerHTML = "<p>⏳ Φόρτωση μαθητών...</p>";
+
+  const { data: students, error } = await supabaseClient
+    .from("Students")
+    .select("id, f_name, l_name, email, phone, class, created_at")
+    .order("id", { ascending: true });
+
+  if (error) {
+
+    console.error(error);
+
+    studentsList.innerHTML =
+      "<p>❌ Δεν μπορέσαμε να φορτώσουμε τους μαθητές.</p>";
+
+    return;
+  }
+
+  if (!students || students.length === 0) {
+
+    studentsList.innerHTML =
+      "<p>Δεν υπάρχουν μαθητές.</p>";
+
+    return;
+  }
+
+  studentsList.innerHTML = students.map(student => `
+
+    <div class="role" style="max-width: 100%; margin-bottom: 15px; text-align: left;">
+
+      <h3>
+        👨‍🎓 ${student.f_name || ""} ${student.l_name || ""}
+      </h3>
+
+      <p>📧 ${student.email || "—"}</p>
+      <p>📱 ${student.phone || "—"}</p>
+      <p>🎓 Τάξη: ${student.class || "—"}</p>
+
+    </div>
+
+  `).join("");
+}
+
+
+function backToTeacherDashboard() {
+
+  document.getElementById("studentsPage").style.display = "none";
+  document.getElementById("teacherDashboard").style.display = "block";
+
+  window.scrollTo(0, 0);
+}
     
   </script>
 
