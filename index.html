@@ -431,8 +431,8 @@
           <div class="role-icon">👤</div>
           <h3>Προφίλ</h3>
           <p>Δες τα προσωπικά στοιχεία του λογαριασμού σου.</p>
-          <button onclick="alert('👤 Το Προφίλ θα προστεθεί σύντομα.')">
-            Άνοιγμα
+          <button onclick="openStudentProfile()">
+             Άνοιγμα
           </button>
         </div>
 
@@ -453,6 +453,72 @@
   <footer>
     © 2026 KOUTTOUKOS Education
   </footer>
+
+</div>
+
+<!-- STUDENT PROFILE -->
+
+<div id="studentProfile" class="login-page">
+
+  <header>
+    <div class="logo">👤</div>
+    <h1>KOUTTOUKOS Education</h1>
+    <div class="subtitle">Το προφίλ μου</div>
+  </header>
+
+  <main class="container">
+
+    <section class="welcome">
+
+      <h2>👤 Το προφίλ μου</h2>
+
+      <div class="login-box">
+
+        <div class="input-group">
+          <label>Όνομα</label>
+          <p id="profileFirstName">—</p>
+        </div>
+
+        <div class="input-group">
+          <label>Επώνυμο</label>
+          <p id="profileLastName">—</p>
+        </div>
+
+        <div class="input-group">
+          <label>Email</label>
+          <p id="profileEmail">—</p>
+        </div>
+
+        <div class="input-group">
+          <label>Τηλέφωνο</label>
+          <p id="profilePhone">—</p>
+        </div>
+
+        <div class="input-group">
+          <label>Τάξη</label>
+          <p id="profileClass">—</p>
+        </div>
+
+        <div class="input-group">
+          <label>Ημερομηνία εγγραφής</label>
+          <p id="profileCreatedAt">—</p>
+        </div>
+
+        <button onclick="alert('🔐 Η αλλαγή κωδικού θα προστεθεί σύντομα.')">
+          🔐 Αλλαγή κωδικού
+        </button>
+
+        <br><br>
+
+        <button class="back-button" onclick="backToStudentDashboard()">
+          ← Επιστροφή
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
 
 </div>
 
