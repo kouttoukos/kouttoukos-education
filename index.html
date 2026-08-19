@@ -730,11 +730,11 @@ async function openStudentProfile() {
     .eq("auth_id", (await supabaseClient.auth.getUser()).data.user.id)
     .single();
 
-  if (error) {
-    console.error("Σφάλμα:", error);
-    alert("❌ Δεν μπορώ να διαβάσω τα στοιχεία του μαθητή.");
-    return;
-  }
+if (error) {
+  alert("ΣΦΑΛΜΑ SUPABASE:\n\n" + JSON.stringify(error, null, 2));
+  console.error(error);
+  return;
+}
 
   document.getElementById("profileFirstName").textContent =
     data.f_name || "—";
