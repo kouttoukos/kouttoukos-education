@@ -1118,11 +1118,27 @@ async function createNewStudent(button) {
       }
     );
 
-    if (error) {
-      console.error(error);
-      alert("❌ Παρουσιάστηκε σφάλμα.\n\n" + error.message);
-      return;
+   if (error) {
+  console.error("FUNCTION ERROR:", error);
+
+  let details = "";
+
+  try {
+    if (error.context) {
+      const response = await error.context.json();
+      details = response?.error || JSON.stringify(response);
     }
+  } catch (e) {
+    details = error.message;
+  }
+
+  alert(
+    "❌ Σφάλμα δημιουργίας μαθητή.\n\n" +
+    (details || error.message)
+  );
+
+  return;
+}
 
     if (data?.error) {
       alert("❌ " + data.error);
