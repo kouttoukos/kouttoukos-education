@@ -1366,11 +1366,26 @@ async function saveStudentChanges() {
         }
       );
 
-    if (error) {
-      console.error(error);
-      alert("❌ Σφάλμα ενημέρωσης μαθητή.\n\n" + error.message);
-      return;
+   if (error) {
+  console.error("UPDATE ERROR:", error);
+
+  let details = error.message;
+
+  try {
+    if (error.context) {
+      const body = await error.context.json();
+
+      if (body?.error) {
+        details = body.error;
+      }
     }
+  } catch (e) {
+    console.error("Δεν μπορέσαμε να διαβάσουμε το error body:", e);
+  }
+
+  alert("❌ Σφάλμα ενημέρωσης μαθητή.\n\n" + details);
+  return;
+}
 
     if (data?.error) {
       alert("❌ " + data.error);
