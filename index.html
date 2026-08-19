@@ -759,20 +759,12 @@
     </select>
   </div>
 
-  <div class="input-group">
-    <label for="newStudentPassword">🔑 Κωδικός</label>
+ 
 
-    <input
-      type="password"
-      id="newStudentPassword"
-      placeholder="Κωδικός μαθητή"
-    >
-  </div>
-
-  <button
-    onclick="createNewStudent()"
-    style="width: 100%;"
-  >
+ <button
+  onclick="createNewStudent(this)"
+  style="width: 100%;"
+>
     💾 Αποθήκευση μαθητή
   </button>
 
@@ -1092,6 +1084,81 @@ function backToTeacherDashboard() {
   document.getElementById("teacherDashboard").style.display = "block";
 
   window.scrollTo(0, 0);
+}
+
+async function createNewStudent(button) {
+
+  const name = document.getElementById("newStudentFirstName").value.trim();
+  const surname = document.getElementById("newStudentLastName").value.trim();
+  const email = document.getElementById("newStudentEmail").value.trim();
+  const phone = document.getElementById("newStudentPhone").value.trim();
+  const className = document.getElementById("newStudentClass").value;
+
+  if (!name || !surname || !email || !phone || !className) {
+    alert("⚠️ Συμπλήρωσε όλα τα πεδία.");
+    return;
+  }
+
+  const button = event.target;
+  button.disabled = true;
+  button.textContent = "⏳ Δημιουργία μαθητή...";
+
+  try {
+
+    const { data, error } = await supabaseClient.functions.invoke(
+      "create-student",
+      {
+        body: {
+          name: name,
+          surname: surname,
+          email: email,
+          phone: phone,
+          className: className
+        }
+      }
+    );
+
+    if (error) {
+      console.error(error);
+      alert("❌ Παρουσιάστηκε σφάλμα.\n\n" + error.message);
+      return;
+    }
+
+    if (data?.error) {
+      alert("❌ " + data.error);
+      return;
+    }
+
+    alert(
+      "✅ Ο μαθητής δημιουργήθηκε επιτυχώς!\n\n" +
+      "Ο κωδικός πρόσβασης είναι το τηλέφωνό του."
+    );
+
+    document.getElementById("newStudentFirstName").value = "";
+    document.getElementById("newStudentLastName").value = "";
+    document.getElementById("newStudentEmail").value = "";
+    document.getElementById("newStudentPhone").value = "";
+    document.getElementById("newStudentClass").value = "";
+
+    hideNewStudentForm();
+
+    openStudents();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "❌ Παρουσιάστηκε σφάλμα.\n\n" +
+      (error.message || error)
+    );
+
+  } finally {
+
+    button.disabled = false;
+    button.textContent = "💾 Αποθήκευση μαθητή";
+
+  }
 }
     
   </script>
