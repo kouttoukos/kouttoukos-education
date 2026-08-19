@@ -677,12 +677,114 @@
 
       <!-- ΝΕΟΣ ΜΑΘΗΤΗΣ -->
 
-      <button
-        onclick="alert('➕ Η καταχώρηση νέου μαθητή θα προστεθεί στο επόμενο βήμα.')"
-        style="margin-bottom: 25px;"
-      >
-        ➕ Νέος μαθητής
-      </button>
+     <button
+  onclick="showNewStudentForm()"
+  style="margin-bottom: 25px;"
+>
+  ➕ Νέος μαθητής
+</button>
+
+<!-- ΦΟΡΜΑ ΝΕΟΥ ΜΑΘΗΤΗ -->
+
+<div
+  id="newStudentForm"
+  style="
+    display: none;
+    max-width: 550px;
+    margin: 20px auto 30px;
+    background: #f8fafc;
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid #e5e7eb;
+    text-align: left;
+  "
+>
+
+  <h2 style="text-align: center;">
+    ➕ Νέος μαθητής
+  </h2>
+
+  <div class="input-group">
+    <label for="newStudentFirstName">Όνομα</label>
+    <input
+      type="text"
+      id="newStudentFirstName"
+      placeholder="Όνομα μαθητή"
+    >
+  </div>
+
+  <div class="input-group">
+    <label for="newStudentLastName">Επώνυμο</label>
+    <input
+      type="text"
+      id="newStudentLastName"
+      placeholder="Επώνυμο μαθητή"
+    >
+  </div>
+
+  <div class="input-group">
+    <label for="newStudentEmail">📧 Email</label>
+    <input
+      type="email"
+      id="newStudentEmail"
+      placeholder="Email μαθητή"
+    >
+  </div>
+
+  <div class="input-group">
+    <label for="newStudentPhone">📱 Τηλέφωνο</label>
+    <input
+      type="text"
+      id="newStudentPhone"
+      placeholder="Τηλέφωνο μαθητή"
+    >
+  </div>
+
+  <div class="input-group">
+    <label for="newStudentClass">🎓 Τάξη</label>
+
+    <select
+      id="newStudentClass"
+      style="
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        font-size: 16px;
+      "
+    >
+      <option value="">Επίλεξε τάξη</option>
+      <option value="Β">Β΄ Τάξη</option>
+      <option value="Γ">Γ΄ Τάξη</option>
+    </select>
+  </div>
+
+  <div class="input-group">
+    <label for="newStudentPassword">🔑 Κωδικός</label>
+
+    <input
+      type="password"
+      id="newStudentPassword"
+      placeholder="Κωδικός μαθητή"
+    >
+  </div>
+
+  <button
+    onclick="createNewStudent()"
+    style="width: 100%;"
+  >
+    💾 Αποθήκευση μαθητή
+  </button>
+
+  <button
+    class="back-button"
+    onclick="hideNewStudentForm()"
+    style="width: 100%;"
+  >
+    ✖ Ακύρωση
+  </button>
+
+</div>
 
       <!-- ΛΙΣΤΑ ΜΑΘΗΤΩΝ -->
 
