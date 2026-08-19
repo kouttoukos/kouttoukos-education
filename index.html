@@ -858,7 +858,26 @@
 </div>
       
       <!-- ΛΙΣΤΑ ΜΑΘΗΤΩΝ -->
+<div style="margin: 20px 0;">
 
+  <input
+    type="text"
+    id="studentSearch"
+    placeholder="🔍 Αναζήτηση με όνομα ή επώνυμο..."
+    oninput="filterStudents()"
+    style="
+      width: 100%;
+      max-width: 500px;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+    "
+  >
+
+</div>
+
+      
       <div id="studentsList">
         <p>⏳ Φόρτωση μαθητών...</p>
       </div>
