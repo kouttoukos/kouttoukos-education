@@ -724,45 +724,36 @@
 
 async function openStudentProfile() {
 
-  const { data: { user }, error: userError } =
-    await supabaseClient.auth.getUser();
+  const { data, error } = await supabaseClient
+    .from("Students")
+    .select("*")
+    .eq("auth_id", (await supabaseClient.auth.getUser()).data.user.id)
+    .single();
 
-  if (userError || !user) {
-    alert("❌ Δεν βρέθηκε ενεργός χρήστης.");
-    return;
-  }
-
-  const { data: student, error: studentError } =
-    await supabaseClient
-      .from("Students")
-      .select("f_name, l_name, email, phone, class, created_at")
-      .eq("auth_id", user.id)
-      .single();
-
-  if (studentError) {
-    console.error(studentError);
-    alert("❌ Δεν βρέθηκαν τα στοιχεία του μαθητή.");
+  if (error) {
+    console.error("Σφάλμα:", error);
+    alert("❌ Δεν μπορώ να διαβάσω τα στοιχεία του μαθητή.");
     return;
   }
 
   document.getElementById("profileFirstName").textContent =
-    student.f_name || "—";
+    data.f_name || "—";
 
   document.getElementById("profileLastName").textContent =
-    student.l_name || "—";
+    data.l_name || "—";
 
   document.getElementById("profileEmail").textContent =
-    student.email || "—";
+    data.email || "—";
 
   document.getElementById("profilePhone").textContent =
-    student.phone || "—";
+    data.phone || "—";
 
   document.getElementById("profileClass").textContent =
-    student.class || "—";
+    data.class || "—";
 
   document.getElementById("profileCreatedAt").textContent =
-    student.created_at
-      ? new Date(student.created_at).toLocaleDateString("el-GR")
+    data.created_at
+      ? new Date(data.created_at).toLocaleDateString("el-GR")
       : "—";
 
   document.getElementById("studentDashboard").style.display = "none";
