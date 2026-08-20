@@ -2076,17 +2076,38 @@ async function savePayment() {
     return;
   }
 
-  const { error } = await supabaseClient
-    .from("payments")
-    .insert({
-      student_id: Number(currentPaymentStudentId),
-      month: currentPaymentMonth,
-      paid: true,
-      payment_date: paymentDate,
-      payment_method: paymentMethod || null
-    });
+  let result;
+
+  if (editingPayment) {
+
+    result = await supabaseClient
+      .from("payments")
+      .update({
+        paid: true,
+        payment_date: paymentDate,
+        payment_method: paymentMethod || null
+      })
+      .eq("student_id", Number(currentPaymentStudentId))
+      .eq("month", currentPaymentMonth);
+
+  } else {
+
+    result = await supabaseClient
+      .from("payments")
+      .insert({
+        student_id: Number(currentPaymentStudentId),
+        month: currentPaymentMonth,
+        paid: true,
+        payment_date: paymentDate,
+        payment_method: paymentMethod || null
+      });
+
+  }
+
+  const { error } = result;
 
   if (error) {
+
     console.error("PAYMENT ERROR:", error);
 
     alert(
@@ -2097,7 +2118,13 @@ async function savePayment() {
     return;
   }
 
-  alert("✅ Η πληρωμή αποθηκεύτηκε!");
+  alert(
+    editingPayment
+      ? "✅ Η πληρωμή διορθώθηκε!"
+      : "✅ Η πληρωμή αποθηκεύτηκε!"
+  );
+
+  editingPayment = false;
 
   closePaymentForm();
 
