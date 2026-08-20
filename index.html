@@ -1520,7 +1520,10 @@ async function saveStudentChanges() {
   const className =
     document.getElementById("editStudentClass").value;
 
-  if (!name || !surname || !email || !phone || !className) {
+  const monthlyFee =
+    document.getElementById("editStudentMonthlyFee").value;
+
+ if (!name || !surname || !email || !phone || !className || !monthlyFee) {
     alert("⚠️ Συμπλήρωσε όλα τα πεδία.");
     return;
   }
@@ -1538,7 +1541,8 @@ async function saveStudentChanges() {
             surname: surname,
             email: email,
             phone: phone,
-            className: className
+            className: className,
+            monthlyFee: monthlyFee
           }
         }
       );
