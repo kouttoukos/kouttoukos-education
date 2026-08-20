@@ -921,7 +921,136 @@
   </footer>
 
 </div>
-  
+
+
+<!-- ΚΑΡΤΕΛΑ ΠΛΗΡΩΜΩΝ ΜΑΘΗΤΗ -->
+
+<div
+  id="studentPaymentsPage"
+  class="login-page"
+  style="display: none;"
+>
+
+  <header>
+    <div class="logo">💰</div>
+    <h1>KOUTTOUKOS Education</h1>
+    <div class="subtitle">Πληρωμές μαθητή</div>
+  </header>
+
+  <main class="container">
+
+    <section class="welcome">
+
+      <h2>💰 Καρτέλα πληρωμών</h2>
+
+      <h3 id="paymentStudentName">
+        Μαθητής
+      </h3>
+
+      <p id="paymentStudentFee">
+        Μηνιαία χρέωση: —
+      </p>
+
+      <div
+        id="paymentsList"
+        style="margin-top: 25px;"
+      >
+        <p>⏳ Φόρτωση πληρωμών...</p>
+      </div>
+
+      <div
+  id="paymentForm"
+  style="
+    display: none;
+    max-width: 500px;
+    margin: 25px auto;
+    background: #f8fafc;
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid #e5e7eb;
+    text-align: left;
+  "
+>
+
+  <h3 id="paymentFormTitle" style="text-align: center;">
+    💰 Καταχώρηση πληρωμής
+  </h3>
+
+  <div class="input-group">
+
+    <label for="paymentDate">
+      📅 Ημερομηνία πληρωμής
+    </label>
+
+    <input
+      type="date"
+      id="paymentDate"
+      style="
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        font-size: 16px;
+      "
+    >
+
+  </div>
+
+  <div class="input-group">
+
+    <label for="paymentMethod">
+      💳 Τρόπος πληρωμής
+    </label>
+
+    <input
+      type="text"
+      id="paymentMethod"
+      placeholder="Π.χ. Έμβασμα, Μετρητά..."
+      style="
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        font-size: 16px;
+      "
+    >
+
+  </div>
+
+  <button
+    onclick="savePayment()"
+    style="width: 100%;"
+  >
+    💾 Αποθήκευση πληρωμής
+  </button>
+
+  <button
+    onclick="closePaymentForm()"
+    class="back-button"
+    style="width: 100%;"
+  >
+    ✖ Ακύρωση
+  </button>
+
+</div>
+
+      <button
+        class="back-button"
+        onclick="closeStudentPayments()"
+        style="margin-top: 30px;"
+      >
+        ← Επιστροφή στους μαθητές
+      </button>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 KOUTTOUKOS Education
+  </footer>
+
+</div>
   
   <!-- LOGIN ΚΑΘΗΓΗΤΗ -->
 
@@ -987,6 +1116,8 @@
   <script>
 
     let currentStudents = [];
+    let currentPaymentStudentId = null;
+let currentPaymentMonth = null;
 
     function showLogin(type) {
 
@@ -1286,6 +1417,13 @@ function displayStudents(students) {
                   ✏️ Επεξεργασία
                 </button>
 
+                <button
+                  onclick="openStudentPayments('${student.id}')"
+                  style="margin-left: 8px;"
+                >
+                 💰 Πληρωμές
+                </button>
+
               </td>
 
             </tr>
@@ -1492,6 +1630,187 @@ function hideEditStudentForm() {
 
 }
 
+async function openStudentPayments(id) {
+
+  const student = currentStudents.find(
+    student => String(student.id) === String(id)
+  );
+
+  if (!student) {
+    alert("❌ Δεν βρέθηκε ο μαθητής.");
+    return;
+  }
+
+  document.getElementById("studentsPage").style.display = "none";
+  document.getElementById("studentPaymentsPage").style.display = "block";
+
+  document.getElementById("paymentStudentName").textContent =
+    "👨‍🎓 " + (student.f_name || "") + " " + (student.l_name || "");
+
+  document.getElementById("paymentStudentFee").textContent =
+    "💶 Μηνιαία χρέωση: " +
+    (student.monthly_fee || "—") +
+    " €";
+
+  document.getElementById("paymentsList").innerHTML =
+    "<p>⏳ Φόρτωση πληρωμών...</p>";
+
+  const { data: payments, error } = await supabaseClient
+    .from("payments")
+    .select("*")
+    .eq("student_id", student.id)
+    .order("id", { ascending: true });
+
+  if (error) {
+
+    console.error(error);
+
+    document.getElementById("paymentsList").innerHTML =
+      "<p>❌ Δεν μπορέσαμε να φορτώσουμε τις πληρωμές.</p>";
+
+    return;
+  }
+
+  console.log("PAYMENTS:", payments);
+  const months = [
+  "Σεπτέμβριος",
+  "Οκτώβριος",
+  "Νοέμβριος",
+  "Δεκέμβριος",
+  "Ιανουάριος",
+  "Φεβρουάριος",
+  "Μάρτιος",
+  "Απρίλιος",
+  "Μάιος",
+  "Ιούνιος"
+];
+
+document.getElementById("paymentsList").innerHTML = `
+  <div style="overflow-x: auto;">
+
+    <table style="
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+    ">
+
+      <thead>
+        <tr style="background: #f1f5f9;">
+
+          <th style="padding: 14px; text-align: left;">
+            Μήνας
+          </th>
+
+          <th style="padding: 14px; text-align: left;">
+            Κατάσταση
+          </th>
+
+          <th style="padding: 14px; text-align: left;">
+            Ημερομηνία
+          </th>
+
+          <th style="padding: 14px; text-align: left;">
+            Τρόπος πληρωμής
+          </th>
+
+        </tr>
+      </thead>
+
+      <tbody>
+
+        ${months.map(month => {
+
+          const payment = payments?.find(
+            p => p.month === month
+          );
+
+          return `
+            <tr style="border-top: 1px solid #e5e7eb;">
+
+              <td style="padding: 14px;">
+                <strong>${month}</strong>
+              </td>
+
+              <td style="padding: 14px;">
+               ${
+                 payment?.paid
+                 ? "🟩 Πληρωμένος"
+                     : `
+                     ⬜ Απλήρωτος
+                   <br>
+                 <button
+        onclick="openPaymentForm('${student.id}', '${month}')"
+        style="margin-top: 8px;"
+      >
+        💰 Καταχώρηση
+      </button>
+    `
+}
+              </td>
+
+              <td style="padding: 14px;">
+                ${
+                  payment?.payment_date || "—"
+                }
+              </td>
+
+              <td style="padding: 14px;">
+                ${
+                  payment?.payment_method || "—"
+                }
+              </td>
+
+            </tr>
+          `;
+
+        }).join("")}
+
+      </tbody>
+
+    </table>
+
+  </div>
+`;
+}
+
+
+    function closeStudentPayments() {
+
+  document.getElementById("studentPaymentsPage").style.display = "none";
+  document.getElementById("studentsPage").style.display = "block";
+
+}
+
+
+function openPaymentForm(studentId, month) {
+
+  currentPaymentStudentId = studentId;
+  currentPaymentMonth = month;
+
+  document.getElementById("paymentFormTitle").textContent =
+    "💰 Πληρωμή " + month;
+
+  // Βάζουμε αυτόματα τη σημερινή ημερομηνία
+  const today = new Date().toISOString().split("T")[0];
+
+  document.getElementById("paymentDate").value = today;
+
+  document.getElementById("paymentMethod").value = "";
+
+  document.getElementById("paymentForm").style.display = "block";
+
+  window.scrollTo(0, 0);
+}
+
+    function closePaymentForm() {
+
+  document.getElementById("paymentForm").style.display = "none";
+
+}
+    
+    
 async function saveStudentChanges() {
 
   const id = document.getElementById("editStudentId").value;
