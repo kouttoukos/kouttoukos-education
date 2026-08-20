@@ -1809,7 +1809,52 @@ function openPaymentForm(studentId, month) {
   document.getElementById("paymentForm").style.display = "none";
 
 }
-    
+
+async function savePayment() {
+
+  const paymentDate =
+    document.getElementById("paymentDate").value;
+
+  const paymentMethod =
+    document.getElementById("paymentMethod").value.trim();
+
+  if (!paymentDate) {
+    alert("⚠️ Επίλεξε ημερομηνία πληρωμής.");
+    return;
+  }
+
+  if (!currentPaymentStudentId || !currentPaymentMonth) {
+    alert("❌ Δεν βρέθηκε ο μαθητής ή ο μήνας.");
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("payments")
+    .insert({
+      student_id: Number(currentPaymentStudentId),
+      month: currentPaymentMonth,
+      paid: true,
+      payment_date: paymentDate,
+      payment_method: paymentMethod || null
+    });
+
+  if (error) {
+    console.error("PAYMENT ERROR:", error);
+
+    alert(
+      "❌ Δεν αποθηκεύτηκε η πληρωμή.\n\n" +
+      error.message
+    );
+
+    return;
+  }
+
+  alert("✅ Η πληρωμή αποθηκεύτηκε!");
+
+  closePaymentForm();
+
+  await openStudentPayments(currentPaymentStudentId);
+}
     
 async function saveStudentChanges() {
 
