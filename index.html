@@ -1153,83 +1153,7 @@ async function openStudents() {
     return;
   }
 
-studentsList.innerHTML = `
-  <div style="overflow-x: auto; margin-top: 20px;">
-
-    <table style="
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 15px;
-      overflow: hidden;
-    ">
-
-      <thead>
-        <tr style="background: #f1f5f9;">
-
-          <th style="padding: 14px; text-align: left;">
-            Μαθητής
-          </th>
-
-          <th style="padding: 14px; text-align: left;">
-            Τάξη
-          </th>
-
-          <th style="padding: 14px; text-align: left;">
-            Τηλέφωνο
-          </th>
-
-          <th style="padding: 14px; text-align: center;">
-            Ενέργεια
-          </th>
-
-        </tr>
-      </thead>
-
-      <tbody>
-
-        ${students.map(student => `
-
-          <tr style="border-top: 1px solid #e5e7eb;">
-
-            <td style="padding: 14px;">
-              <strong>
-                ${student.f_name || ""} ${student.l_name || ""}
-              </strong>
-              <br>
-              <span style="color: #6b7280; font-size: 14px;">
-                ${student.email || "—"}
-              </span>
-            </td>
-
-            <td style="padding: 14px;">
-              🎓 ${student.class || "—"}
-            </td>
-
-            <td style="padding: 14px;">
-              📱 ${student.phone || "—"}
-            </td>
-
-            <td style="padding: 14px; text-align: center;">
-
-              <button
-                onclick="editStudent('${student.id}')"
-              >
-                ✏️ Επεξεργασία
-              </button>
-
-            </td>
-
-          </tr>
-
-        `).join("")}
-
-      </tbody>
-
-    </table>
-
-  </div>
-`;
+displayStudents(students);
 }
 
 function filterStudents() {
@@ -1262,6 +1186,97 @@ function filterStudents() {
 
   displayStudents(filteredStudents);
 }    
+
+function displayStudents(students) {
+
+  const studentsList =
+    document.getElementById("studentsList");
+
+  studentsList.innerHTML = `
+    <div style="overflow-x: auto; margin-top: 20px;">
+
+      <table style="
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+      ">
+
+        <thead>
+          <tr style="background: #f1f5f9;">
+
+            <th style="padding: 14px; text-align: left;">
+              Μαθητής
+            </th>
+
+            <th style="padding: 14px; text-align: left;">
+              Τάξη
+            </th>
+
+            <th style="padding: 14px; text-align: left;">
+              Τηλέφωνο
+            </th>
+
+            <th style="padding: 14px; text-align: center;">
+              Ενέργεια
+            </th>
+
+          </tr>
+        </thead>
+
+        <tbody>
+
+          ${students.map(student => `
+
+            <tr style="border-top: 1px solid #e5e7eb;">
+
+              <td style="padding: 14px;">
+                <strong>
+                  ${student.f_name || ""} ${student.l_name || ""}
+                </strong>
+                <br>
+
+                <span style="
+                  color: #6b7280;
+                  font-size: 14px;
+                ">
+                  ${student.email || "—"}
+                </span>
+              </td>
+
+              <td style="padding: 14px;">
+                🎓 ${student.class || "—"}
+              </td>
+
+              <td style="padding: 14px;">
+                📱 ${student.phone || "—"}
+              </td>
+
+              <td style="
+                padding: 14px;
+                text-align: center;
+              ">
+
+                <button
+                  onclick="editStudent('${student.id}')"
+                >
+                  ✏️ Επεξεργασία
+                </button>
+
+              </td>
+
+            </tr>
+
+          `).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+  `;
+}
 
 function showNewStudentForm() {
 
