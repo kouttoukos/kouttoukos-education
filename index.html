@@ -1801,7 +1801,10 @@ function openPaymentForm(studentId, month) {
 
   document.getElementById("paymentForm").style.display = "block";
 
-  window.scrollTo(0, 0);
+  document.getElementById("paymentForm").scrollIntoView({
+  behavior: "smooth",
+  block: "start"
+});
 }
 
     function closePaymentForm() {
