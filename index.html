@@ -1232,6 +1232,37 @@ studentsList.innerHTML = `
 `;
 }
 
+function filterStudents() {
+
+  const searchInput =
+    document.getElementById("studentSearch");
+
+  const searchText =
+    searchInput.value.toLowerCase().trim();
+
+  const selectedClass =
+    document.getElementById("classFilter").value;
+
+  const filteredStudents =
+    currentStudents.filter(student => {
+
+      const fullName =
+        `${student.f_name || ""} ${student.l_name || ""}`
+          .toLowerCase();
+
+      const matchesSearch =
+        fullName.includes(searchText);
+
+      const matchesClass =
+        selectedClass === "all" ||
+        student.class === selectedClass;
+
+      return matchesSearch && matchesClass;
+    });
+
+  displayStudents(filteredStudents);
+}    
+
 function showNewStudentForm() {
 
   document.getElementById("newStudentForm").style.display = "block";
