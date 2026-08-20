@@ -1174,6 +1174,7 @@
     let currentStudents = [];
     let currentPaymentStudentId = null;
 let currentPaymentMonth = null;
+    let editingPayment = false;
 
     function showLogin(type) {
 
@@ -1939,18 +1940,32 @@ document.getElementById("paymentsList").innerHTML = `
 
               <td style="padding: 14px;">
                ${
-                 payment?.paid
-                 ? "🟩 Πληρωμένος"
-                     : `
-                     ⬜ Απλήρωτος
-                   <br>
-                 <button
-        onclick="openPaymentForm('${student.id}', '${month}')"
-        style="margin-top: 8px;"
-      >
-        💰 Καταχώρηση
-      </button>
-    `
+                payment?.paid
+  ? `
+    🟩 Πληρωμένος
+    <br>
+    <button
+      onclick="openEditPaymentForm(
+        '${student.id}',
+        '${month}',
+        '${payment.payment_date || ""}',
+        '${payment.payment_method || ""}'
+      )"
+      style="margin-top: 8px;"
+    >
+      ✏️ Επεξεργασία
+    </button>
+  `
+  : `
+    ⬜ Απλήρωτος
+    <br>
+    <button
+      onclick="openPaymentForm('${student.id}', '${month}')"
+      style="margin-top: 8px;"
+    >
+      💰 Καταχώρηση
+    </button>
+  `
 }
               </td>
 
@@ -1994,6 +2009,7 @@ function openPaymentForm(studentId, month) {
 
   currentPaymentStudentId = studentId;
   currentPaymentMonth = month;
+  editingPayment = false;
 
   document.getElementById("paymentFormTitle").textContent =
     "💰 Πληρωμή " + month;
@@ -2013,6 +2029,29 @@ function openPaymentForm(studentId, month) {
 });
 }
 
+function openEditPaymentForm(studentId, month, paymentDate, paymentMethod) {
+
+  currentPaymentStudentId = studentId;
+  currentPaymentMonth = month;
+  editingPayment = true;
+
+  document.getElementById("paymentFormTitle").textContent =
+    "✏️ Επεξεργασία πληρωμής " + month;
+
+  document.getElementById("paymentDate").value =
+    paymentDate || "";
+
+  document.getElementById("paymentMethod").value =
+    paymentMethod || "";
+
+  document.getElementById("paymentForm").style.display = "block";
+
+  document.getElementById("paymentForm").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+    
     function closePaymentForm() {
 
   document.getElementById("paymentForm").style.display = "none";
