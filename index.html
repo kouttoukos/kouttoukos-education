@@ -850,6 +850,18 @@
     </select>
   </div>
 
+    <div class="input-group">
+    <label for="editStudentMonthlyFee">💶 Μηνιαία χρέωση</label>
+
+    <input
+      type="number"
+      id="editStudentMonthlyFee"
+      placeholder="Π.χ. 60"
+      min="0"
+      step="0.01"
+    >
+  </div>
+
   <button
     onclick="saveStudentChanges()"
     style="width: 100%;"
@@ -1132,7 +1144,7 @@ async function openStudents() {
 
   let query = supabaseClient
     .from("Students")
-    .select("id, auth_id, f_name, l_name, email, phone, class, created_at")
+   .select("id, auth_id, f_name, l_name, email, phone, class, monthly_fee, created_at")
     .order("id", { ascending: true });
 
   // Αν έχει επιλεγεί συγκεκριμένη τάξη
@@ -1463,6 +1475,8 @@ function editStudent(id) {
   document.getElementById("editStudentEmail").value = student.email || "";
   document.getElementById("editStudentPhone").value = student.phone || "";
   document.getElementById("editStudentClass").value = student.class || "";
+  document.getElementById("editStudentMonthlyFee").value =
+  student.monthly_fee || "";
 
   document.getElementById("studentsList").style.display = "none";
   document.getElementById("editStudentForm").style.display = "block";
