@@ -1297,6 +1297,101 @@ function backToStudentDashboard() {
   }
 
   console.log("MY PAYMENTS:", payments);
+      const months = [
+  "Σεπτέμβριος",
+  "Οκτώβριος",
+  "Νοέμβριος",
+  "Δεκέμβριος",
+  "Ιανουάριος",
+  "Φεβρουάριος",
+  "Μάρτιος",
+  "Απρίλιος",
+  "Μάιος",
+  "Ιούνιος"
+];
+
+document.getElementById("myPaymentsList").innerHTML = `
+  <div style="overflow-x: auto;">
+
+    <table style="
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+    ">
+
+      <thead>
+        <tr style="background: #f1f5f9;">
+
+          <th style="padding: 14px; text-align: left;">
+            Μήνας
+          </th>
+
+          <th style="padding: 14px; text-align: left;">
+            Κατάσταση
+          </th>
+
+          <th style="padding: 14px; text-align: left;">
+            Ημερομηνία
+          </th>
+
+          <th style="padding: 14px; text-align: left;">
+            Τρόπος πληρωμής
+          </th>
+
+        </tr>
+      </thead>
+
+      <tbody>
+
+        ${months.map(month => {
+
+          const payment = payments?.find(
+            p => p.month === month
+          );
+
+          return `
+            <tr style="border-top: 1px solid #e5e7eb;">
+
+              <td style="padding: 14px;">
+                <strong>${month}</strong>
+              </td>
+
+              <td style="padding: 14px;">
+                ${
+                  payment?.paid
+                    ? "🟩 Πληρωμένος"
+                    : "⬜ Απλήρωτος"
+                }
+              </td>
+
+              <td style="padding: 14px;">
+                ${
+                  payment?.payment_date
+                    ? payment.payment_date
+                        .split("-")
+                        .reverse()
+                        .join("-")
+                    : "—"
+                }
+              </td>
+
+              <td style="padding: 14px;">
+                ${payment?.payment_method || "—"}
+              </td>
+
+            </tr>
+          `;
+
+        }).join("")}
+
+      </tbody>
+
+    </table>
+
+  </div>
+`;
 }
 
     function backToStudentDashboardFromPayments() {
