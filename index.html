@@ -1955,6 +1955,13 @@ document.getElementById("paymentsList").innerHTML = `
     >
       ✏️ Επεξεργασία
     </button>
+    
+    <button
+  onclick="deletePayment('${student.id}', '${month}')"
+  style="margin-top: 8px; background: #dc2626;"
+>
+  🗑️ Ακύρωση
+</button>
   `
   : `
     ⬜ Απλήρωτος
@@ -2129,6 +2136,38 @@ async function savePayment() {
   closePaymentForm();
 
   await openStudentPayments(currentPaymentStudentId);
+}
+
+    async function deletePayment(studentId, month) {
+
+  const confirmed = confirm(
+    `Θέλεις σίγουρα να ακυρώσεις την πληρωμή για τον μήνα ${month};`
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("payments")
+    .delete()
+    .eq("student_id", Number(studentId))
+    .eq("month", month);
+
+  if (error) {
+    console.error("DELETE PAYMENT ERROR:", error);
+
+    alert(
+      "❌ Δεν διαγράφηκε η πληρωμή.\n\n" +
+      error.message
+    );
+
+    return;
+  }
+
+  alert("✅ Η πληρωμή ακυρώθηκε.");
+
+  await openStudentPayments(studentId);
 }
     
 async function saveStudentChanges() {
