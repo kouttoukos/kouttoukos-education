@@ -759,7 +759,17 @@
     </select>
   </div>
 
- 
+   <div class="input-group">
+    <label for="newStudentMonthlyFee">💶 Μηνιαία χρέωση</label>
+
+    <input
+      type="number"
+      id="newStudentMonthlyFee"
+      placeholder="Π.χ. 60"
+      min="0"
+      step="0.01"
+    >
+  </div>
 
  <button
   onclick="createNewStudent(this)"
@@ -1308,6 +1318,8 @@ async function createNewStudent(button) {
   const email = document.getElementById("newStudentEmail").value.trim();
   const phone = document.getElementById("newStudentPhone").value.trim();
   const className = document.getElementById("newStudentClass").value;
+  const monthlyFee =
+  document.getElementById("newStudentMonthlyFee").value;
 
   if (!name || !surname || !email || !phone || !className) {
     alert("⚠️ Συμπλήρωσε όλα τα πεδία.");
@@ -1328,7 +1340,8 @@ async function createNewStudent(button) {
           surname: surname,
           email: email,
           phone: phone,
-          className: className
+          className: className,
+          monthlyFee: monthlyFee
         }
       }
     );
@@ -1370,6 +1383,7 @@ async function createNewStudent(button) {
     document.getElementById("newStudentEmail").value = "";
     document.getElementById("newStudentPhone").value = "";
     document.getElementById("newStudentClass").value = "";
+    document.getElementById("newStudentMonthlyFee").value = "";
 
     hideNewStudentForm();
 
