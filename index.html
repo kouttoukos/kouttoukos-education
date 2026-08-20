@@ -1392,6 +1392,45 @@ async function createNewStudent(button) {
   }
 }
 
+function filterStudents() {
+
+  const searchInput =
+    document.getElementById("studentSearch");
+
+  const searchText =
+    searchInput.value.toLowerCase().trim();
+
+  const selectedClass =
+    document.getElementById("classFilter").value;
+
+  const filteredStudents =
+    currentStudents.filter(student => {
+
+      const fullName =
+        `${student.f_name || ""} ${student.l_name || ""}`
+          .toLowerCase();
+
+      const matchesSearch =
+        fullName.includes(searchText);
+
+      const matchesClass =
+        selectedClass === "all" ||
+        student.class === selectedClass;
+
+      return matchesSearch && matchesClass;
+    });
+
+  if (filteredStudents.length === 0) {
+
+    document.getElementById("studentsList").innerHTML =
+      "<p>🔍 Δεν βρέθηκε μαθητής.</p>";
+
+    return;
+  }
+
+  displayStudents(filteredStudents);
+}
+
 function editStudent(id) {
 
   const student = currentStudents.find(
