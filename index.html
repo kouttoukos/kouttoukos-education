@@ -422,6 +422,15 @@
             🔐 Σύνδεση
           </button>
 
+          <button
+  type="button"
+  class="back-button"
+  onclick="requestPasswordReset('student')"
+  style="margin-top: 15px;"
+>
+  🔑 Ξέχασες τον κωδικό σου;
+</button>
+
         </form>
 
         <button class="back-button" onclick="goHome()">
@@ -1511,7 +1520,15 @@
           <button class="login-button" type="submit">
             🔐 Σύνδεση
           </button>
-
+         <button
+  type="button"
+  class="back-button"
+  onclick="requestPasswordReset('teacher')"
+  style="margin-top: 15px;"
+>
+  🔑 Ξέχασες τον κωδικό σου;
+</button>
+          
         </form>
 
         <button class="back-button" onclick="goHome()">
@@ -3327,6 +3344,49 @@ function filterTeacherMaterials() {
   document.getElementById("homePage").style.display = "block";
 
   window.scrollTo(0, 0);
+}
+
+  async function requestPasswordReset(type) {
+
+  let email;
+
+  if (type === "student") {
+    email = document.getElementById("studentEmail").value.trim();
+  }
+
+  if (type === "teacher") {
+    email = document.getElementById("teacherEmail").value.trim();
+  }
+
+  if (!email) {
+    alert("⚠️ Γράψε πρώτα το email σου.");
+    return;
+  }
+
+  const { error } =
+    await supabaseClient.auth.resetPasswordForEmail(
+      email,
+      {
+        redirectTo: "https://kouttoukos-education.vercel.app"
+      }
+    );
+
+  if (error) {
+
+    console.error("PASSWORD RESET ERROR:", error);
+
+    alert(
+      "❌ Δεν μπορέσαμε να στείλουμε το email επαναφοράς.\n\n" +
+      error.message
+    );
+
+    return;
+  }
+
+  alert(
+    "✅ Στάλθηκε email επαναφοράς κωδικού.\n\n" +
+    "Έλεγξε τα εισερχόμενά σου και πάτησε τον σύνδεσμο που θα λάβεις."
+  );
 }
     
   </script>
