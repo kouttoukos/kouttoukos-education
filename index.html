@@ -2552,8 +2552,11 @@ function backToTeacherDashboardFromMaterials() {
 
   try {
 
-    const safeFileName =
-      Date.now() + "-" + file.name;
+   const fileExtension =
+  file.name.split(".").pop().toLowerCase();
+
+const safeFileName =
+  Date.now() + "." + fileExtension;
 
    const storageFolder =
   className === "Β" ? "B" : "C";
