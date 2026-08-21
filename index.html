@@ -2366,6 +2366,108 @@ function backToTeacherDashboardFromMaterials() {
   window.scrollTo(0, 0);
 }
 
+  async function uploadMaterial(button) {
+
+  const className =
+    document.getElementById("materialClass").value;
+
+  const fileInput =
+    document.getElementById("materialFile");
+
+  const file =
+    fileInput.files[0];
+
+  if (!className) {
+    alert("⚠️ Επίλεξε τάξη.");
+    return;
+  }
+
+  if (!file) {
+    alert("⚠️ Επίλεξε PDF αρχείο.");
+    return;
+  }
+
+  if (file.type !== "application/pdf") {
+    alert("⚠️ Επιτρέπονται μόνο PDF αρχεία.");
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "⏳ Ανέβασμα...";
+
+  try {
+
+    const safeFileName =
+      Date.now() + "-" + file.name;
+
+    const filePath =
+      className + "/" + safeFileName;
+
+    const { error: uploadError } =
+      await supabaseClient.storage
+        .from("materials")
+        .upload(filePath, file);
+
+    if (uploadError) {
+      console.error(uploadError);
+
+      alert(
+        "❌ Δεν ανέβηκε το PDF.\n\n" +
+        uploadError.message
+      );
+
+      return;
+    }
+
+    const { error: dbError } =
+      await supabaseClient
+        .from("materials")
+        .insert({
+          title: file.name,
+          description: null,
+          file_path: filePath,
+          class: className
+        });
+
+    if (dbError) {
+
+      console.error(dbError);
+
+      // Αν αποτύχει η εγγραφή στη βάση,
+      // διαγράφουμε και το PDF που μόλις ανέβηκε
+      await supabaseClient.storage
+        .from("materials")
+        .remove([filePath]);
+
+      alert(
+        "❌ Το PDF ανέβηκε αλλά δεν αποθηκεύτηκε στη βάση.\n\n" +
+        dbError.message
+      );
+
+      return;
+    }
+
+    alert("✅ Το PDF ανέβηκε επιτυχώς!");
+
+    document.getElementById("materialClass").value = "";
+    document.getElementById("materialFile").value = "";
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "❌ Παρουσιάστηκε σφάλμα.\n\n" +
+      (error.message || error)
+    );
+
+  } finally {
+
+    button.disabled = false;
+    button.textContent = "📤 Ανέβασμα PDF";
+
+  }
+}
     
   </script>
 
