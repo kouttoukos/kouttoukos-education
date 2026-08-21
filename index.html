@@ -794,7 +794,22 @@
       >
         📤 Ανέβασμα PDF
       </button>
-
+<div class="input-group" style="margin-top: 30px;">
+  <input
+    type="text"
+    id="teacherMaterialSearch"
+    placeholder="🔎 Αναζήτηση υλικού..."
+    oninput="filterTeacherMaterials()"
+    style="
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+    "
+  >
+</div>
+      
       <div
         id="teacherMaterialsList"
         style="margin-top: 30px;"
@@ -2617,7 +2632,11 @@ function backToTeacherDashboardFromMaterials() {
 
           ${materials.map(material => `
 
-            <tr style="border-top: 1px solid #e5e7eb;">
+           <tr
+  class="teacher-material-row"
+  data-title="${material.title}"
+  style="border-top: 1px solid #e5e7eb;"
+>
 
            <td style="padding: 14px;">
   📄 ${material.title}
@@ -3148,6 +3167,32 @@ function filterStudentMaterials() {
 
   });
 }
+function filterTeacherMaterials() {
+
+  const searchText =
+    document.getElementById("teacherMaterialSearch")
+      .value
+      .toLowerCase()
+      .trim();
+
+  const materialRows =
+    document.querySelectorAll(".teacher-material-row");
+
+  materialRows.forEach(row => {
+
+    const title =
+      row.getAttribute("data-title")
+        .toLowerCase();
+
+    if (title.includes(searchText)) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+
+  });
+}
+
     
   </script>
 
