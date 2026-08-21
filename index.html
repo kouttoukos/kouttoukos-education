@@ -3047,6 +3047,62 @@ async function studentPdfZoomIn() {
 
   await renderStudentPdf();
 }
+async function studentPdfZoomOut() {
+
+  if (currentStudentPdfScale <= 0.6) {
+    return;
+  }
+
+  currentStudentPdfScale -= 0.2;
+
+  await renderStudentPdf();
+}
+
+    async function studentPdfZoomOut() {
+
+  if (currentStudentPdfScale <= 0.6) {
+    return;
+  }
+
+  currentStudentPdfScale -= 0.2;
+
+  await renderStudentPdf();
+}
+
+
+function studentPdfFullscreen() {
+
+  const viewer =
+    document.getElementById("studentPdfViewer");
+
+  if (!document.fullscreenElement) {
+
+    viewer.requestFullscreen()
+      .catch(error => {
+        console.error("FULLSCREEN ERROR:", error);
+      });
+
+  } else {
+
+    document.exitFullscreen();
+
+  }
+}
+
+
+function closeStudentPdfViewer() {
+
+  document.getElementById("studentPdfViewer").style.display =
+    "none";
+
+  document.getElementById("studentPdfPages").innerHTML = "";
+
+  currentStudentPdfUrl = null;
+  currentStudentPdfScale = 1.2;
+
+  document.getElementById("studentPdfZoomText").textContent =
+    "120%";
+}
     
   </script>
 
