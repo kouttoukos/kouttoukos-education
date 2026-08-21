@@ -2690,11 +2690,12 @@ async function deleteMaterial(materialId, filePath) {
   }
 
   // 2. Διαγραφή από τον πίνακα materials
-  const { error: dbError } =
+  const { data: deletedRows, error: dbError } =
     await supabaseClient
       .from("materials")
       .delete()
-      .eq("id", Number(materialId));
+      .eq("id", Number(materialId))
+      .select();
 
   if (dbError) {
 
@@ -2708,7 +2709,16 @@ async function deleteMaterial(materialId, filePath) {
     return;
   }
 
-  alert("✅ Το PDF διαγράφηκε.");
+  if (!deletedRows || deletedRows.length === 0) {
+
+    alert(
+      "⚠️ Το αρχείο διαγράφηκε από το Storage, αλλά η εγγραφή δεν διαγράφηκε από τη βάση."
+    );
+
+    return;
+  }
+
+  alert("✅ Το PDF διαγράφηκε επιτυχώς.");
 
   await loadTeacherMaterials();
 }
