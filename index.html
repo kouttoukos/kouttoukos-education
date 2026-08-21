@@ -300,7 +300,80 @@
 
   </div>
 
+<!-- RESET PASSWORD PAGE -->
 
+<div id="resetPasswordPage" class="login-page">
+
+  <header>
+    <div class="logo">🔑</div>
+    <h1>KOUTTOUKOS Education</h1>
+    <div class="subtitle">Ορισμός νέου κωδικού</div>
+  </header>
+
+  <main class="container">
+
+    <div class="login-box">
+
+      <div class="login-icon">🔐</div>
+
+      <h2>Νέος κωδικός</h2>
+
+      <p>
+        Πληκτρολόγησε τον νέο κωδικό πρόσβασης.
+      </p>
+
+      <form onsubmit="saveNewPassword(event)">
+
+        <div class="input-group">
+
+          <label for="newPassword">
+            🔑 Νέος κωδικός
+          </label>
+
+          <input
+            type="password"
+            id="newPassword"
+            placeholder="Νέος κωδικός"
+            minlength="4"
+            required
+          >
+
+        </div>
+
+        <div class="input-group">
+
+          <label for="confirmNewPassword">
+            🔑 Επιβεβαίωση κωδικού
+          </label>
+
+          <input
+            type="password"
+            id="confirmNewPassword"
+            placeholder="Ξανά ο νέος κωδικός"
+            minlength="4"
+            required
+          >
+
+        </div>
+
+        <button
+          class="login-button"
+          type="submit"
+        >
+          💾 Αποθήκευση νέου κωδικού
+        </button>
+
+      </form>
+
+    </div>
+
+  </main>
+
+  <footer>
+    © 2026 KOUTTOUKOS Education
+  </footer>
+
+</div>
   <!-- LOGIN ΜΑΘΗΤΗ -->
 
   <div id="studentLogin" class="login-page">
@@ -3193,6 +3266,68 @@ function filterTeacherMaterials() {
   });
 }
 
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+
+  if (event === "PASSWORD_RECOVERY") {
+
+    document.getElementById("homePage").style.display = "none";
+    document.getElementById("studentLogin").style.display = "none";
+    document.getElementById("teacherLogin").style.display = "none";
+
+    document.getElementById("resetPasswordPage").style.display = "block";
+
+    window.scrollTo(0, 0);
+  }
+
+});
+
+    async function saveNewPassword(event) {
+
+  event.preventDefault();
+
+  const newPassword =
+    document.getElementById("newPassword").value;
+
+  const confirmPassword =
+    document.getElementById("confirmNewPassword").value;
+
+  if (newPassword !== confirmPassword) {
+    alert("❌ Οι δύο κωδικοί δεν είναι ίδιοι.");
+    return;
+  }
+
+  if (newPassword.length < 4) {
+    alert("⚠️ Ο κωδικός πρέπει να έχει τουλάχιστον 4 χαρακτήρες.");
+    return;
+  }
+
+  const { error } =
+    await supabaseClient.auth.updateUser({
+      password: newPassword
+    });
+
+  if (error) {
+
+    console.error("PASSWORD UPDATE ERROR:", error);
+
+    alert(
+      "❌ Δεν άλλαξε ο κωδικός.\n\n" +
+      error.message
+    );
+
+    return;
+  }
+
+  alert("✅ Ο νέος κωδικός αποθηκεύτηκε!");
+
+  document.getElementById("newPassword").value = "";
+  document.getElementById("confirmNewPassword").value = "";
+
+  document.getElementById("resetPasswordPage").style.display = "none";
+  document.getElementById("homePage").style.display = "block";
+
+  window.scrollTo(0, 0);
+}
     
   </script>
 
