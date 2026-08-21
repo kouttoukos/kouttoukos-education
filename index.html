@@ -228,6 +228,18 @@
         padding: 30px 20px;
       }
     }
+.student-pdf-controls button {
+  width: auto;
+  padding: 6px 9px;
+  margin: 0;
+  font-size: 12px;
+}
+
+.student-pdf-controls span {
+  font-size: 12px;
+  white-space: nowrap;
+}
+    
   </style>
 </head>
 
@@ -1004,7 +1016,15 @@
 
     <strong>📄 Προβολή PDF</strong>
 
-    <div style="display: flex; gap: 8px; align-items: center;">
+  <div
+  style="
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  "
+>
 
       <button onclick="studentPdfZoomOut()">
         ➖
