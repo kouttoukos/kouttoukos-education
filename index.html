@@ -2490,6 +2490,18 @@ function backToTeacherDashboardFromMaterials() {
   >
     👁️ Άνοιγμα
   </button>
+  <button
+  onclick="deleteMaterial(
+    '${material.id}',
+    '${material.file_path}'
+  )"
+  style="
+    margin-top: 8px;
+    background: #dc2626;
+  "
+>
+  🗑️ Διαγραφή
+</button>
 </td>
 
               <td style="padding: 14px;">
@@ -2647,6 +2659,58 @@ function closePdfViewer() {
 
   document.getElementById("pdfViewer").style.display =
     "none";
+}
+
+async function deleteMaterial(materialId, filePath) {
+
+  const confirmed = confirm(
+    "Θέλεις σίγουρα να διαγράψεις αυτό το PDF;"
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  // 1. Διαγραφή από το Storage
+  const { error: storageError } =
+    await supabaseClient.storage
+      .from("materials")
+      .remove([filePath]);
+
+  if (storageError) {
+
+    console.error("STORAGE DELETE ERROR:", storageError);
+
+    alert(
+      "❌ Δεν διαγράφηκε το PDF από το Storage.\n\n" +
+      storageError.message
+    );
+
+    return;
+  }
+
+  // 2. Διαγραφή από τον πίνακα materials
+  const { error: dbError } =
+    await supabaseClient
+      .from("materials")
+      .delete()
+      .eq("id", Number(materialId));
+
+  if (dbError) {
+
+    console.error("MATERIAL DELETE ERROR:", dbError);
+
+    alert(
+      "❌ Το PDF διαγράφηκε από το Storage, αλλά όχι από τη βάση.\n\n" +
+      dbError.message
+    );
+
+    return;
+  }
+
+  alert("✅ Το PDF διαγράφηκε.");
+
+  await loadTeacherMaterials();
 }
     
   </script>
