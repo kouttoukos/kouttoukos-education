@@ -3041,6 +3041,12 @@ async function renderStudentPdf() {
       "<p>❌ Δεν μπορέσαμε να εμφανίσουμε το PDF.</p>";
   }
 }
+async function studentPdfZoomIn() {
+
+  currentStudentPdfScale += 0.2;
+
+  await renderStudentPdf();
+}
     
   </script>
 
