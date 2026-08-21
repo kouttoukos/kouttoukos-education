@@ -239,6 +239,23 @@
   font-size: 12px;
   white-space: nowrap;
 }
+ @media (max-width: 600px) {
+
+  .student-pdf-controls {
+    gap: 3px !important;
+  }
+
+  .student-pdf-controls button {
+    padding: 4px 6px !important;
+    font-size: 11px !important;
+    min-width: 0 !important;
+  }
+
+  .student-pdf-controls span {
+    font-size: 11px !important;
+  }
+
+}   
     
   </style>
 </head>
@@ -3166,10 +3183,12 @@ async function renderStudentPdf() {
       canvas.height =
         viewport.height;
 
-      canvas.style.maxWidth = "100%";
-      canvas.style.height = "auto";
-      canvas.style.marginBottom = "20px";
-      canvas.style.background = "white";
+      canvas.style.display = "block";
+canvas.style.maxWidth = "none";
+canvas.style.width = viewport.width + "px";
+canvas.style.height = viewport.height + "px";
+canvas.style.margin = "0 auto 20px";
+canvas.style.background = "white";
 
       container.appendChild(canvas);
 
