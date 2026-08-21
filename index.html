@@ -386,9 +386,9 @@
           <div class="role-icon">📚</div>
           <h3>Υλικό</h3>
           <p>Δες το εκπαιδευτικό σου υλικό.</p>
-          <button onclick="alert('📚 Το Υλικό θα προστεθεί σύντομα.')">
-            Άνοιγμα
-          </button>
+         <button onclick="openStudentMaterials()">
+           Άνοιγμα
+         </button>
         </div>
 
         <div class="role">
@@ -465,6 +465,47 @@
 
 </div>
 
+  <!-- STUDENT MATERIALS PAGE -->
+
+<div id="studentMaterialsPage" class="login-page">
+
+  <header>
+    <div class="logo">📚</div>
+    <h1>KOUTTOUKOS Education</h1>
+    <div class="subtitle">Το εκπαιδευτικό μου υλικό</div>
+  </header>
+
+  <main class="container">
+
+    <section class="welcome">
+
+      <h2>📚 Υλικό</h2>
+
+      <div
+        id="studentMaterialsList"
+        style="margin-top: 25px;"
+      >
+        <p>⏳ Φόρτωση υλικού...</p>
+      </div>
+
+      <button
+        class="back-button"
+        onclick="backToStudentDashboardFromMaterials()"
+        style="margin-top: 30px;"
+      >
+        ← Επιστροφή
+      </button>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 KOUTTOUKOS Education
+  </footer>
+
+</div>
+  
   <!-- ΠΛΗΡΩΜΕΣ ΜΑΘΗΤΗ -->
 
 <div id="myPaymentsPage" class="login-page">
@@ -2612,7 +2653,7 @@ const filePath =
 
     document.getElementById("materialClass").value = "";
     document.getElementById("materialFile").value = "";
-
+   await loadTeacherMaterials();
   } catch (error) {
 
     console.error(error);
@@ -2724,6 +2765,22 @@ async function deleteMaterial(materialId, filePath) {
   alert("✅ Το PDF διαγράφηκε επιτυχώς.");
 
   await loadTeacherMaterials();
+}
+async function openStudentMaterials() {
+
+  document.getElementById("studentDashboard").style.display = "none";
+  document.getElementById("studentMaterialsPage").style.display = "block";
+
+  window.scrollTo(0, 0);
+}
+
+
+function backToStudentDashboardFromMaterials() {
+
+  document.getElementById("studentMaterialsPage").style.display = "none";
+  document.getElementById("studentDashboard").style.display = "block";
+
+  window.scrollTo(0, 0);
 }
     
   </script>
