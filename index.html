@@ -2400,8 +2400,11 @@ function backToTeacherDashboardFromMaterials() {
     const safeFileName =
       Date.now() + "-" + file.name;
 
-    const filePath =
-      className + "/" + safeFileName;
+   const storageFolder =
+  className === "Β" ? "B" : "C";
+
+const filePath =
+  storageFolder + "/" + safeFileName;
 
     const { error: uploadError } =
       await supabaseClient.storage
