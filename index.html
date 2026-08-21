@@ -611,9 +611,9 @@
           <div class="role-icon">📚</div>
           <h3>Υλικό</h3>
           <p>Διαχείριση εκπαιδευτικού υλικού.</p>
-          <button onclick="alert('📚 Η διαχείριση υλικού θα προστεθεί σύντομα.')">
-            Άνοιγμα
-          </button>
+        <button onclick="openTeacherMaterials()">
+  Άνοιγμα
+</button>
         </div>
 
         <div class="role">
@@ -669,6 +669,87 @@
         style="margin-top: 30px;"
       >
         🚪 Αποσύνδεση
+      </button>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 KOUTTOUKOS Education
+  </footer>
+
+</div>
+
+  <!-- TEACHER MATERIALS PAGE -->
+
+<div id="teacherMaterialsPage" class="login-page">
+
+  <header>
+    <div class="logo">📚</div>
+    <h1>KOUTTOUKOS Education</h1>
+    <div class="subtitle">Διαχείριση εκπαιδευτικού υλικού</div>
+  </header>
+
+  <main class="container">
+
+    <section class="welcome">
+
+      <h2>📚 Εκπαιδευτικό υλικό</h2>
+
+      <p>
+        Ανέβασε PDF αρχεία για τους μαθητές της Β΄ ή Γ΄ τάξης.
+      </p>
+
+      <div class="input-group">
+        <label for="materialClass">🎓 Τάξη</label>
+
+        <select
+          id="materialClass"
+          style="
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 16px;
+          "
+        >
+          <option value="">Επίλεξε τάξη</option>
+          <option value="Β">Β΄ Τάξη</option>
+          <option value="Γ">Γ΄ Τάξη</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="materialFile">📄 PDF αρχείο</label>
+
+        <input
+          type="file"
+          id="materialFile"
+          accept="application/pdf"
+        >
+      </div>
+
+      <button
+        onclick="uploadMaterial(this)"
+        style="width: 100%;"
+      >
+        📤 Ανέβασμα PDF
+      </button>
+
+      <div
+        id="teacherMaterialsList"
+        style="margin-top: 30px;"
+      >
+        <p>⏳ Φόρτωση υλικού...</p>
+      </div>
+
+      <button
+        class="back-button"
+        onclick="backToTeacherDashboardFromMaterials()"
+        style="margin-top: 30px;"
+      >
+        ← Επιστροφή
       </button>
 
     </section>
@@ -2267,6 +2348,24 @@ async function saveStudentChanges() {
     );
   }
 }
+
+function openTeacherMaterials() {
+
+  document.getElementById("teacherDashboard").style.display = "none";
+  document.getElementById("teacherMaterialsPage").style.display = "block";
+
+  window.scrollTo(0, 0);
+}
+
+
+function backToTeacherDashboardFromMaterials() {
+
+  document.getElementById("teacherMaterialsPage").style.display = "none";
+  document.getElementById("teacherDashboard").style.display = "block";
+
+  window.scrollTo(0, 0);
+}
+
     
   </script>
 
