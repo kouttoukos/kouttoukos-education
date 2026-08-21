@@ -1055,6 +1055,10 @@
         ➕
       </button>
 
+    <button onclick="studentPdfRotate()">
+  ↻ Περιστροφή
+</button>
+
       <button onclick="studentPdfFullscreen()">
         ⛶ Πλήρης οθόνη
       </button>
@@ -1592,6 +1596,7 @@ let currentPaymentMonth = null;
     let editingPayment = false;
     let currentStudentPdfUrl = null;
 let currentStudentPdfScale = 1.2;
+    let currentStudentPdfRotation = 0;
 
     function showLogin(type) {
 
@@ -3167,21 +3172,40 @@ async function renderStudentPdf() {
         await pdf.getPage(pageNumber);
 
       const viewport =
-        page.getViewport({
-          scale: currentStudentPdfScale
-        });
+  page.getViewport({
+    scale: currentStudentPdfScale,
+    rotation: currentStudentPdfRotation
+  });
 
-      const canvas =
-        document.createElement("canvas");
+     const canvas =
+  document.createElement("canvas");
 
-      const context =
-        canvas.getContext("2d");
+const context =
+  canvas.getContext("2d");
 
-      canvas.width =
-        viewport.width;
+const outputScale =
+  window.devicePixelRatio || 1;
 
-      canvas.height =
-        viewport.height;
+canvas.width =
+  Math.floor(viewport.width * outputScale);
+
+canvas.height =
+  Math.floor(viewport.height * outputScale);
+
+canvas.style.width =
+  viewport.width + "px";
+
+canvas.style.height =
+  viewport.height + "px";
+
+context.setTransform(
+  outputScale,
+  0,
+  0,
+  outputScale,
+  0,
+  0
+);
 
       canvas.style.display = "block";
 canvas.style.maxWidth = "none";
@@ -3426,6 +3450,16 @@ function filterTeacherMaterials() {
     "✅ Στάλθηκε email επαναφοράς κωδικού.\n\n" +
     "Έλεγξε τα εισερχόμενά σου και πάτησε τον σύνδεσμο που θα λάβεις."
   );
+}
+async function studentPdfRotate() {
+
+  currentStudentPdfRotation += 90;
+
+  if (currentStudentPdfRotation >= 360) {
+    currentStudentPdfRotation = 0;
+  }
+
+  await renderStudentPdf();
 }
     
   </script>
