@@ -2867,6 +2867,31 @@ function backToStudentDashboardFromMaterials() {
 
   window.scrollTo(0, 0);
 }
+
+    async function openStudentMaterial(filePath) {
+
+  const { data, error } =
+    await supabaseClient.storage
+      .from("materials")
+      .createSignedUrl(filePath, 3600);
+
+  if (error) {
+    console.error("STUDENT PDF ERROR:", error);
+
+    alert(
+      "❌ Δεν μπορέσαμε να ανοίξουμε το PDF.\n\n" +
+      error.message
+    );
+
+    return;
+  }
+
+  document.getElementById("pdfViewerFrame").src =
+    data.signedUrl;
+
+  document.getElementById("pdfViewer").style.display =
+    "block";
+}
     
   </script>
 
