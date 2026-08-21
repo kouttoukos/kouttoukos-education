@@ -2353,7 +2353,7 @@ function openTeacherMaterials() {
 
   document.getElementById("teacherDashboard").style.display = "none";
   document.getElementById("teacherMaterialsPage").style.display = "block";
-
+loadTeacherMaterials();
   window.scrollTo(0, 0);
 }
 
@@ -2366,6 +2366,86 @@ function backToTeacherDashboardFromMaterials() {
   window.scrollTo(0, 0);
 }
 
+    async function loadTeacherMaterials() {
+
+  const materialsList =
+    document.getElementById("teacherMaterialsList");
+
+  materialsList.innerHTML =
+    "<p>⏳ Φόρτωση υλικού...</p>";
+
+  const { data: materials, error } =
+    await supabaseClient
+      .from("materials")
+      .select("id, title, file_path, class, created_at")
+      .order("id", { ascending: false });
+
+  if (error) {
+    console.error(error);
+
+    materialsList.innerHTML =
+      "<p>❌ Δεν μπορέσαμε να φορτώσουμε το υλικό.</p>";
+
+    return;
+  }
+
+  if (!materials || materials.length === 0) {
+    materialsList.innerHTML =
+      "<p>Δεν υπάρχει ακόμη εκπαιδευτικό υλικό.</p>";
+
+    return;
+  }
+
+  materialsList.innerHTML = `
+    <div style="overflow-x: auto;">
+
+      <table style="
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+      ">
+
+        <thead>
+          <tr style="background: #f1f5f9;">
+
+            <th style="padding: 14px; text-align: left;">
+              Αρχείο
+            </th>
+
+            <th style="padding: 14px; text-align: left;">
+              Τάξη
+            </th>
+
+          </tr>
+        </thead>
+
+        <tbody>
+
+          ${materials.map(material => `
+
+            <tr style="border-top: 1px solid #e5e7eb;">
+
+              <td style="padding: 14px;">
+                📄 ${material.title}
+              </td>
+
+              <td style="padding: 14px;">
+                ${material.class === "Β" ? "Β΄" : "Γ΄"}
+              </td>
+
+            </tr>
+
+          `).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+  `;
+}
+
+    
   async function uploadMaterial(button) {
 
   const className =
