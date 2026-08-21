@@ -2771,9 +2771,94 @@ async function openStudentMaterials() {
   document.getElementById("studentDashboard").style.display = "none";
   document.getElementById("studentMaterialsPage").style.display = "block";
 
+  const materialsList =
+    document.getElementById("studentMaterialsList");
+
+  materialsList.innerHTML =
+    "<p>⏳ Φόρτωση υλικού...</p>";
+
+  const { data: { user }, error: userError } =
+    await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    materialsList.innerHTML =
+      "<p>❌ Δεν βρέθηκε ενεργός χρήστης.</p>";
+    return;
+  }
+
+  const { data: student, error: studentError } =
+    await supabaseClient
+      .from("Students")
+      .select("class")
+      .eq("auth_id", user.id)
+      .single();
+
+  if (studentError || !student) {
+    console.error(studentError);
+
+    materialsList.innerHTML =
+      "<p>❌ Δεν βρέθηκε η τάξη του μαθητή.</p>";
+
+    return;
+  }
+
+  const { data: materials, error: materialsError } =
+    await supabaseClient
+      .from("materials")
+      .select("id, title, file_path, class")
+      .eq("class", student.class)
+      .order("id", { ascending: false });
+
+  if (materialsError) {
+    console.error(materialsError);
+
+    materialsList.innerHTML =
+      "<p>❌ Δεν μπορέσαμε να φορτώσουμε το υλικό.</p>";
+
+    return;
+  }
+
+  if (!materials || materials.length === 0) {
+    materialsList.innerHTML =
+      "<p>Δεν υπάρχει ακόμη υλικό για την τάξη σου.</p>";
+
+    return;
+  }
+
+  materialsList.innerHTML = `
+    <div style="text-align: left;">
+
+      ${materials.map(material => `
+
+        <div style="
+          padding: 16px;
+          margin-bottom: 12px;
+          background: #f8fafc;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+        ">
+
+          <strong>
+            📄 ${material.title}
+          </strong>
+
+          <br><br>
+
+          <button
+            onclick="openStudentMaterial('${material.file_path}')"
+          >
+            👁️ Προβολή
+          </button>
+
+        </div>
+
+      `).join("")}
+
+    </div>
+  `;
+
   window.scrollTo(0, 0);
 }
-
 
 function backToStudentDashboardFromMaterials() {
 
