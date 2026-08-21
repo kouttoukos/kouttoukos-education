@@ -482,6 +482,22 @@
 
       <h2>📚 Υλικό</h2>
 
+      <div class="input-group">
+  <input
+    type="text"
+    id="studentMaterialSearch"
+    placeholder="🔎 Αναζήτηση υλικού..."
+    oninput="filterStudentMaterials()"
+    style="
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+    "
+  >
+</div>
+
       <div
         id="studentMaterialsList"
         style="margin-top: 25px;"
@@ -2913,13 +2929,17 @@ async function openStudentMaterials() {
 
       ${materials.map(material => `
 
-        <div style="
-          padding: 16px;
-          margin-bottom: 12px;
-          background: #f8fafc;
-          border: 1px solid #e5e7eb;
-          border-radius: 12px;
-        ">
+       <div
+  class="student-material-card"
+  data-title="${material.title}"
+  style="
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+  "
+>
 
           <strong>
             📄 ${material.title}
@@ -3102,6 +3122,31 @@ function closeStudentPdfViewer() {
 
   document.getElementById("studentPdfZoomText").textContent =
     "120%";
+}
+function filterStudentMaterials() {
+
+  const searchText =
+    document.getElementById("studentMaterialSearch")
+      .value
+      .toLowerCase()
+      .trim();
+
+  const materialCards =
+    document.querySelectorAll(".student-material-card");
+
+  materialCards.forEach(card => {
+
+    const title =
+      card.getAttribute("data-title")
+        .toLowerCase();
+
+    if (title.includes(searchText)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+
+  });
 }
     
   </script>
