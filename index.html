@@ -210,24 +210,8 @@
       font-size: 14px;
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 32px;
-      }
+/* PDF VIEWER ΣΕ ΥΠΟΛΟΓΙΣΤΗ */
 
-      header {
-        padding: 40px 15px 60px;
-      }
-
-      .welcome {
-        padding: 30px 20px;
-      }
-
-      .login-box {
-        margin: 30px 20px;
-        padding: 30px 20px;
-      }
-    }
 .student-pdf-controls button {
   width: auto;
   padding: 6px 9px;
@@ -239,23 +223,47 @@
   font-size: 12px;
   white-space: nowrap;
 }
- @media (max-width: 600px) {
+
+
+/* ΚΙΝΗΤΟ */
+
+@media (max-width: 600px) {
+
+  h1 {
+    font-size: 32px;
+  }
+
+  header {
+    padding: 40px 15px 60px;
+  }
+
+  .welcome {
+    padding: 30px 20px;
+  }
+
+  .login-box {
+    margin: 30px 20px;
+    padding: 30px 20px;
+  }
 
   .student-pdf-controls {
-    gap: 3px !important;
+    gap: 2px !important;
+    flex-wrap: nowrap !important;
   }
 
   .student-pdf-controls button {
-    padding: 4px 6px !important;
-    font-size: 11px !important;
-    min-width: 0 !important;
+    width: auto !important;
+    min-width: 32px !important;
+    padding: 4px 5px !important;
+    margin: 0 !important;
+    font-size: 14px !important;
   }
 
   .student-pdf-controls span {
     font-size: 11px !important;
+    white-space: nowrap;
   }
-
-}   
+}
     
   </style>
 </head>
@@ -1055,17 +1063,17 @@
         ➕
       </button>
 
-    <button onclick="studentPdfRotate()">
-  ↻ Περιστροφή
+  <button onclick="studentPdfRotate()" title="Περιστροφή">
+  ↻
 </button>
 
-      <button onclick="studentPdfFullscreen()">
-        ⛶ Πλήρης οθόνη
-      </button>
+<button onclick="studentPdfFullscreen()" title="Πλήρης οθόνη">
+  ⛶
+</button>
 
-      <button onclick="closeStudentPdfViewer()">
-        ✖ Κλείσιμο
-      </button>
+<button onclick="closeStudentPdfViewer()" title="Κλείσιμο">
+  ✖
+</button>
 
     </div>
 
