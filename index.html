@@ -735,10 +735,45 @@
           <p id="profileCreatedAt">—</p>
         </div>
 
-        <button onclick="alert('🔐 Η αλλαγή κωδικού θα προστεθεί σύντομα.')">
-          🔐 Αλλαγή κωδικού
-        </button>
+       <button onclick="showStudentChangePasswordForm()">
+  🔐 Αλλαγή κωδικού
+</button>
+<div
+  id="studentChangePasswordForm"
+  style="
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 12px;
+  "
+>
 
+  <div class="input-group">
+    <label for="studentNewPassword">🔑 Νέος κωδικός</label>
+    <input
+      type="password"
+      id="studentNewPassword"
+      placeholder="Νέος κωδικός"
+      minlength="4"
+    >
+  </div>
+
+  <div class="input-group">
+    <label for="studentConfirmPassword">🔑 Επιβεβαίωση κωδικού</label>
+    <input
+      type="password"
+      id="studentConfirmPassword"
+      placeholder="Ξανά ο νέος κωδικός"
+      minlength="4"
+    >
+  </div>
+
+  <button onclick="changeStudentPassword()">
+    💾 Αποθήκευση νέου κωδικού
+  </button>
+
+</div>
         <br><br>
 
         <button class="back-button" onclick="backToStudentDashboard()">
@@ -3471,6 +3506,63 @@ async function studentPdfRotate() {
   }
 
   await renderStudentPdf();
+}
+
+    function showStudentChangePasswordForm() {
+
+  const form =
+    document.getElementById("studentChangePasswordForm");
+
+  form.style.display = "block";
+
+  document.getElementById("studentNewPassword").value = "";
+  document.getElementById("studentConfirmPassword").value = "";
+
+  document.getElementById("studentNewPassword").focus();
+}
+
+
+async function changeStudentPassword() {
+
+  const newPassword =
+    document.getElementById("studentNewPassword").value;
+
+  const confirmPassword =
+    document.getElementById("studentConfirmPassword").value;
+
+  if (newPassword.length < 4) {
+    alert("⚠️ Ο νέος κωδικός πρέπει να έχει τουλάχιστον 4 χαρακτήρες.");
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    alert("❌ Οι δύο κωδικοί δεν είναι ίδιοι.");
+    return;
+  }
+
+  const { error } =
+    await supabaseClient.auth.updateUser({
+      password: newPassword
+    });
+
+  if (error) {
+    console.error("CHANGE PASSWORD ERROR:", error);
+
+    alert(
+      "❌ Δεν μπορέσαμε να αλλάξουμε τον κωδικό.\n\n" +
+      error.message
+    );
+
+    return;
+  }
+
+  alert("✅ Ο κωδικός άλλαξε επιτυχώς!");
+
+  document.getElementById("studentNewPassword").value = "";
+  document.getElementById("studentConfirmPassword").value = "";
+
+  document.getElementById("studentChangePasswordForm").style.display =
+    "none";
 }
     
   </script>
